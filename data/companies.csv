@@ -1,0 +1,51 @@
+Ticker,CompanyName,Sector,Industry,CEO,Founded,Headquarters,Employees,MarketCapTier
+AAPL,Apple Inc.,Technology,Consumer Electronics,Tim Cook,1976,"Cupertino, CA",164000,Mega Cap
+MSFT,Microsoft Corporation,Technology,Software - Infrastructure,Satya Nadella,1975,"Redmond, WA",228000,Mega Cap
+NVDA,NVIDIA Corporation,Technology,Semiconductors,Jensen Huang,1993,"Santa Clara, CA",29600,Mega Cap
+GOOGL,Alphabet Inc.,Communication Services,Internet Content & Information,Sundar Pichai,1998,"Mountain View, CA",182502,Mega Cap
+AMZN,Amazon.com Inc.,Consumer Discretionary,Internet Retail,Andy Jassy,1994,"Seattle, WA",1540000,Mega Cap
+META,Meta Platforms Inc.,Communication Services,Internet Content & Information,Mark Zuckerberg,2004,"Menlo Park, CA",86482,Mega Cap
+TSLA,Tesla Inc.,Consumer Discretionary,Auto Manufacturers,Elon Musk,2003,"Austin, TX",140473,Mega Cap
+BRK.B,Berkshire Hathaway Inc.,Financials,Insurance - Diversified,Warren Buffett,1839,"Omaha, NE",396500,Mega Cap
+AVGO,Broadcom Inc.,Technology,Semiconductors,Hock Tan,1961,"San Jose, CA",37000,Mega Cap
+WMT,Walmart Inc.,Consumer Staples,Discount Stores,Doug McMillon,1962,"Bentonville, AR",2100000,Mega Cap
+JPM,JPMorgan Chase & Co.,Financials,Banks - Diversified,Jamie Dimon,1799,"New York, NY",309926,Mega Cap
+LLY,Eli Lilly and Company,Healthcare,Drug Manufacturers - General,David Ricks,1876,"Indianapolis, IN",43000,Mega Cap
+V,Visa Inc.,Financials,Credit Services,Ryan McInerney,1958,"San Francisco, CA",29500,Mega Cap
+UNH,UnitedHealth Group Inc.,Healthcare,Healthcare Plans,Andrew Witty,1977,"Minnetonka, MN",440000,Mega Cap
+XOM,Exxon Mobil Corporation,Energy,Oil & Gas Integrated,Darren Woods,1870,"Spring, TX",62000,Mega Cap
+MA,Mastercard Incorporated,Financials,Credit Services,Michael Miebach,1966,"Purchase, NY",33400,Large Cap
+ORCL,Oracle Corporation,Technology,Software - Infrastructure,Safra Catz,1977,"Austin, TX",164000,Large Cap
+PG,Procter & Gamble Company,Consumer Staples,Household & Personal Products,Jon Moeller,1837,"Cincinnati, OH",107000,Large Cap
+COST,Costco Wholesale Corporation,Consumer Staples,Discount Stores,Ron Vachris,1983,"Issaquah, WA",316000,Large Cap
+JNJ,Johnson & Johnson,Healthcare,Drug Manufacturers - General,Joaquin Duato,1886,"New Brunswick, NJ",132200,Large Cap
+HD,The Home Depot Inc.,Consumer Discretionary,Home Improvement Retail,Ted Decker,1978,"Atlanta, GA",475000,Large Cap
+ABBV,AbbVie Inc.,Healthcare,Drug Manufacturers - General,Robert Michael,2013,"North Chicago, IL",50000,Large Cap
+NFLX,Netflix Inc.,Communication Services,Entertainment,Ted Sarandos,1997,"Los Gatos, CA",13000,Large Cap
+BAC,Bank of America Corporation,Financials,Banks - Diversified,Brian Moynihan,1904,"Charlotte, NC",217000,Large Cap
+CRM,Salesforce Inc.,Technology,Software - Application,Marc Benioff,1999,"San Francisco, CA",79390,Large Cap
+CVX,Chevron Corporation,Energy,Oil & Gas Integrated,Mike Wirth,1879,"San Ramon, CA",43846,Large Cap
+KO,The Coca-Cola Company,Consumer Staples,Beverages - Non-Alcoholic,James Quincey,1886,"Atlanta, GA",79000,Large Cap
+MRK,Merck & Co. Inc.,Healthcare,Drug Manufacturers - General,Robert Davis,1891,"Rahway, NJ",69000,Large Cap
+AMD,Advanced Micro Devices Inc.,Technology,Semiconductors,Lisa Su,1969,"Santa Clara, CA",26000,Large Cap
+PEP,PepsiCo Inc.,Consumer Staples,Beverages - Non-Alcoholic,Ramon Laguarta,1898,"Purchase, NY",315000,Large Cap
+TMO,Thermo Fisher Scientific Inc.,Healthcare,Diagnostics & Research,Marc Casper,1956,"Waltham, MA",122000,Large Cap
+ADBE,Adobe Inc.,Technology,Software - Infrastructure,Shantanu Narayen,1982,"San Jose, CA",30000,Large Cap
+CSCO,Cisco Systems Inc.,Technology,Communication Equipment,Chuck Robbins,1984,"San Jose, CA",90400,Large Cap
+ACN,Accenture plc,Technology,IT Services,Julie Sweet,1989,"Dublin, Ireland",733000,Large Cap
+LIN,Linde plc,Materials,Specialty Chemicals,Sanjiv Lamba,1879,"Woking, UK",66323,Large Cap
+WFC,Wells Fargo & Company,Financials,Banks - Diversified,Charlie Scharf,1852,"San Francisco, CA",227000,Large Cap
+ABT,Abbott Laboratories,Healthcare,Medical Devices,Robert Ford,1888,"North Chicago, IL",114000,Large Cap
+MCD,McDonald's Corporation,Consumer Discretionary,Restaurants,Chris Kempczinski,1940,"Chicago, IL",150000,Large Cap
+GE,General Electric Company,Industrials,Aerospace & Defense,Larry Culp,1892,"Boston, MA",125000,Large Cap
+INTC,Intel Corporation,Technology,Semiconductors,Pat Gelsinger,1968,"Santa Clara, CA",124800,Large Cap
+DIS,The Walt Disney Company,Communication Services,Entertainment,Bob Iger,1923,"Burbank, CA",225000,Large Cap
+IBM,International Business Machines,Technology,IT Services,Arvind Krishna,1911,"Armonk, NY",282200,Large Cap
+CAT,Caterpillar Inc.,Industrials,Farm & Heavy Construction Machinery,Jim Umpleby,1925,"Irving, TX",109100,Large Cap
+VZ,Verizon Communications Inc.,Communication Services,Telecom Services,Hans Vestberg,1983,"New York, NY",105400,Large Cap
+GS,Goldman Sachs Group Inc.,Financials,Capital Markets,David Solomon,1869,"New York, NY",45600,Large Cap
+INTU,Intuit Inc.,Technology,Software - Application,Sasan Goodarzi,1983,"Mountain View, CA",18200,Large Cap
+NOW,ServiceNow Inc.,Technology,Software - Application,Bill McDermott,2004,"Santa Clara, CA",22718,Large Cap
+AXP,American Express Company,Financials,Credit Services,Stephen Squeri,1850,"New York, NY",77300,Large Cap
+SPGI,S&P Global Inc.,Financials,Financial Data & Stock Exchanges,Doug Peterson,1860,"New York, NY",43400,Large Cap
+TXN,Texas Instruments Incorporated,Technology,Semiconductors,Haviv Ilan,1951,"Dallas, TX",34000,Large Cap
