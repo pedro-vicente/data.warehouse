@@ -3,6 +3,62 @@
 #include <iostream>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+//make_conn
+//make connection string without DNS (Windows, Linux)
+//Driver=ODBC Driver 18 for SQL Server;Server=tcp:localhost,1433;UID=my_username;PWD=my_password
+//To allow services to connect user 'NT AUTHORITY\SYSTEM', in SQL Server Management Studio:
+// 1. Security->Logins->NT AUTHORITY\SYSTEM
+// 2. Properties->Server roles.
+// 3. check 'sysadmin'
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string make_conn(const std::string& server, const std::string& database, std::string user, std::string password)
+{
+  std::string conn;
+
+#ifdef _MSC_VER
+  std::string default_driver = "DRIVER={SQL Server};";
+#else
+  std::string default_driver = "DRIVER=ODBC Driver 18 for SQL Server;";
+#endif
+
+  conn += default_driver;
+
+  conn += "SERVER=";
+  conn += server;
+  conn += ", 1433;";
+
+  if (!user.empty())
+  {
+    conn += "UID=";
+    conn += user;
+    conn += ";";
+  }
+
+  if (!password.empty())
+  {
+    conn += "PWD=";
+    conn += password;
+    conn += ";";
+  }
+
+  if (!database.empty())
+  {
+    conn += "DATABASE=";
+    conn += database;
+    conn += ";";
+  }
+  
+#ifdef _MSC_VER
+#else
+  conn += "TrustServerCertificate=yes;";
+#endif
+
+  std::cout << conn << std::endl;
+  return conn;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 //odbc::odbc
 //Open Database Connectivity wrapper
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -420,59 +476,5 @@ std::string table_t::get_row_col_value(int row, const std::string& col_name)
   return std::string(rows.at(row).col.at(col_num));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//make_conn
-//make connection string without DNS (Windows, Linux)
-//Driver=ODBC Driver 17 for SQL Server;Server=tcp:localhost,1433;UID=my_username;PWD=my_password
-//To allow services to connect user 'NT AUTHORITY\SYSTEM', in SQL Server Management Studio:
-// 1. Security->Logins->NT AUTHORITY\SYSTEM
-// 2. Properties->Server roles.
-// 3. check 'sysadmin'
-/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::string make_conn(const std::string& server, const std::string& database, std::string user, std::string password)
-{
-  std::string conn;
-
-#ifdef _MSC_VER
-  std::string default_driver = "DRIVER={SQL Server};";
-#else
-  std::string default_driver = "DRIVER=ODBC Driver 17 for SQL Server;";
-#endif
-
-  conn += default_driver;
-
-  conn += "SERVER=";
-  conn += server;
-  conn += ", 1433;";
-
-  if (!user.empty())
-  {
-    conn += "UID=";
-    conn += user;
-    conn += ";";
-  }
-
-  if (!password.empty())
-  {
-    conn += "PWD=";
-    conn += password;
-    conn += ";";
-  }
-
-  if (!database.empty())
-  {
-    conn += "DATABASE=";
-    conn += database;
-    conn += ";";
-  }
-
-  if (!password.empty())
-  {
-    conn += "Trusted_Connection=False;";
-    conn += "Integrated Security=False;";
-  }
-
-  return conn;
-}
 

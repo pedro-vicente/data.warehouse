@@ -13,6 +13,140 @@
 #include <sstream>
 #include <iomanip>
 #include <cstdlib>
+#include <cstring>
+#include <vector>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// global configuration (set from command line, used by WApplicationFinmart)
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static std::string server;
+static std::string database;
+static std::string user;
+static std::string password;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// usage
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void usage(const char* program_name)
+{
+  std::cout << "Usage: " << program_name << " [OPTIONS]" << std::endl;
+  std::cout << std::endl;
+  std::cout << "Database options:" << std::endl;
+  std::cout << "  -S SERVER     SQL Server hostname or IP address (required)" << std::endl;
+  std::cout << "  -d DATABASE   Database name (required)" << std::endl;
+  std::cout << "  -U USER       SQL Server username (omit for trusted connection)" << std::endl;
+  std::cout << "  -P PASSWORD   SQL Server password" << std::endl;
+  std::cout << "  -h, --help    Display this help message and exit" << std::endl;
+  std::cout << std::endl;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// create_application
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::unique_ptr<Wt::WApplication> create_application(const Wt::WEnvironment& env)
+{
+  return std::make_unique<WApplicationFinmart>(env);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// main
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char* argv[])
+{
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // parse command line 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  for (int idx = 1; idx < argc; idx++)
+  {
+    std::string arg = argv[idx];
+    if (arg == "-h" || arg == "--help")
+    {
+      usage(argv[0]);
+      return 0;
+    }
+    else if (arg == "-S" && idx + 1 < argc)
+    {
+      server = argv[++idx];
+    }
+    else if (arg == "-d" && idx + 1 < argc)
+    {
+      database = argv[++idx];
+    }
+    else if (arg == "-U" && idx + 1 < argc)
+    {
+      user = argv[++idx];
+    }
+    else if (arg == "-P" && idx + 1 < argc)
+    {
+      password = argv[++idx];
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  //validate required parameters
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  if (server.empty())
+  {
+    usage(argv[0]);
+    return 1;
+  }
+
+  if (database.empty())
+  {
+    usage(argv[0]);
+    return 1;
+  }
+
+#ifdef _MSC_VER
+#else
+  if (user.empty())
+  {
+    usage(argv[0]);
+    return 1;
+  }
+#endif
+
+#ifdef _MSC_VER
+#else
+  if (password.empty())
+  {
+    usage(argv[0]);
+    return 1;
+  }
+#endif
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // display configuration
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  std::cout << "FinMart Web Configuration:" << std::endl;
+  std::cout << "  Server:   " << server << std::endl;
+  std::cout << "  Database: " << database << std::endl;
+  std::cout << "  User:     " << (user.empty() ? "(trusted connection)" : user) << std::endl;
+  std::cout << std::endl;
+
+  std::string conn = make_conn(server, database, user, password);
+  odbc_t odbc;
+  if (odbc.connect(conn) != 0)
+  {
+    std::cout << "Error: Cannot connect to database" << std::endl;
+    return 1;
+  }
+
+  odbc.disconnect();
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // run Wt application
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  return Wt::WRun(argc, argv, &create_application);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::WApplicationFinmart
@@ -22,25 +156,6 @@ WApplicationFinmart::WApplicationFinmart(const Wt::WEnvironment& env)
   : Wt::WApplication(env)
 {
   setTitle("FinMart Data Warehouse");
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  // configuration
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  server = "localhost";
-  database = "data_warehouse";
-
-  const char* env_server = std::getenv("FINMART_SERVER");
-  const char* env_database = std::getenv("FINMART_DATABASE");
-
-  if (env_server)
-  {
-    server = env_server;
-  }
-  if (env_database)
-  {
-    database = env_database;
-  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // connect to database
@@ -85,7 +200,7 @@ WApplicationFinmart::~WApplicationFinmart()
 
 bool WApplicationFinmart::connect_database()
 {
-  std::string conn = make_conn(server, database, "", "");
+  std::string conn = make_conn(server, database, user, password);
   return odbc.connect(conn) == 0;
 }
 
@@ -144,14 +259,14 @@ void WApplicationFinmart::setup_navbar()
   item_sectors->setDecorationStyle(menu_style);
 
   menu->itemSelected().connect([this]()
-  {
-    int idx = menu->currentIndex();
-    if (idx == 0) load_dashboard();
-    else if (idx == 1) load_companies();
-    else if (idx == 2) load_stocks();
-    else if (idx == 3) load_financials();
-    else if (idx == 4) load_sectors();
-  });
+    {
+      int idx = menu->currentIndex();
+      if (idx == 0) load_dashboard();
+      else if (idx == 1) load_companies();
+      else if (idx == 2) load_stocks();
+      else if (idx == 3) load_financials();
+      else if (idx == 4) load_sectors();
+    });
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,7 +524,7 @@ void WApplicationFinmart::load_companies()
 
   std::stringstream sql;
   sql << "SELECT Ticker, CompanyName, Sector, Industry, CEO, Headquarters, Employees, MarketCapTier "
-      << "FROM DimCompany WHERE IsCurrent=1 ";
+    << "FROM DimCompany WHERE IsCurrent=1 ";
 
   if (sector_filter->currentIndex() > 0)
   {
@@ -457,11 +572,11 @@ void WApplicationFinmart::load_stocks()
 
   std::stringstream sql;
   sql << "SELECT TOP 100 c.Ticker, d.FullDate, f.OpenPrice, f.HighPrice, f.LowPrice, f.ClosePrice, "
-      << "f.Volume, f.MarketCap/1e9 AS MarketCapB, f.DailyReturn "
-      << "FROM FactDailyStock f "
-      << "JOIN DimCompany c ON f.CompanyKey = c.CompanyKey "
-      << "JOIN DimDate d ON f.DateKey = d.DateKey "
-      << "WHERE c.IsCurrent = 1 ";
+    << "f.Volume, f.MarketCap/1e9 AS MarketCapB, f.DailyReturn "
+    << "FROM FactDailyStock f "
+    << "JOIN DimCompany c ON f.CompanyKey = c.CompanyKey "
+    << "JOIN DimDate d ON f.DateKey = d.DateKey "
+    << "WHERE c.IsCurrent = 1 ";
 
   if (company_filter->currentIndex() > 0)
   {
@@ -758,20 +873,3 @@ std::string WApplicationFinmart::format_percent(double value)
   return ss.str();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// create_application
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-std::unique_ptr<Wt::WApplication> create_application(const Wt::WEnvironment& env)
-{
-  return std::make_unique<WApplicationFinmart>(env);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// main
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char* argv[])
-{
-  return Wt::WRun(argc, argv, &create_application);
-}

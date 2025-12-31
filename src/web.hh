@@ -30,8 +30,6 @@ public:
 
 private:
   odbc_t odbc;
-  std::string server;
-  std::string database;
 
   Wt::WNavigationBar* navbar;
   Wt::WStackedWidget* contents;

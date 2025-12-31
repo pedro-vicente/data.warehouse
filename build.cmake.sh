@@ -15,7 +15,7 @@ pushd build
 pushd $app
 
 if [[ "$OSTYPE" == "msys"* ]]; then
-    cmake ../.. --fresh \
+    cmake ../.. \
         -DWT_INCLUDE="$path_wt/include" \
         -DBOOST_INCLUDE_DIR="$path_boost/include/boost-1_88" \
         -DBOOST_LIB_DIRS="$path_boost/lib"
@@ -26,15 +26,6 @@ fi
 
 cmake --build . --config Debug 
 
-echo "open browser http://localhost:8080"
-if [[ "$OSTYPE" == "msys"* ]]; then
-./Debug/web --http-address=0.0.0.0 --http-port=8080  --docroot=.
-else
-./web --http-address=0.0.0.0 --http-port=8080  --docroot=.
-fi
-
 popd
 popd
-
-
 exit

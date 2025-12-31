@@ -38,6 +38,10 @@ endif()
 
 target_link_libraries(etl ${lib_dep})
 
+if (MSVC)
+  set_property(TARGET etl PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS "-S localhost -d data_warehouse")
+endif()
+
 
 #//////////////////////////
 # data files 
@@ -61,8 +65,10 @@ endforeach()
 message(STATUS "Source directory is " ${CMAKE_SOURCE_DIR})
 message(STATUS "Build directory is " ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "WT_INCLUDE: " ${WT_INCLUDE})
-message(STATUS "BOOST_INCLUDE_DIR: " ${BOOST_INCLUDE_DIR})
-message(STATUS "BOOST_LIB_DIRS: " ${BOOST_LIB_DIRS})
+if (MSVC)
+  message(STATUS "BOOST_INCLUDE_DIR: " ${BOOST_INCLUDE_DIR})
+  message(STATUS "BOOST_LIB_DIRS: " ${BOOST_LIB_DIRS})
+endif()
 
 include_directories(${BOOST_INCLUDE_DIR})
 include_directories(${WT_INCLUDE})
@@ -74,7 +80,7 @@ add_executable(web src/web.cc src/web.hh ${src})
 
 if (MSVC)
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT web)
-  set_property(TARGET web PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS "--http-address=0.0.0.0 --http-port=8080  --docroot=.")
+  set_property(TARGET web PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS "-S localhost -d data_warehouse --http-address=0.0.0.0 --http-port=8080  --docroot=.")
   set_property(TARGET web PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}")
 endif()
 

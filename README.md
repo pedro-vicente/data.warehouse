@@ -2,6 +2,40 @@
 
 A Kimball-style star schema data warehouse for tracking the top 50 US companies by market capitalization, implemented with C++ and ODBC for Microsoft SQL Server.
 
+## Quick Start - Database Setup (Linux)
+
+### Prerequisites
+
+Install SQL Server:
+
+```bash
+curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg
+curl -fsSL https://packages.microsoft.com/config/ubuntu/24.04/mssql-server-preview.list | sudo tee /etc/apt/sources.list.d/mssql-server-preview.list
+sudo apt-get update
+sudo apt-get install -y mssql-server
+sudo /opt/mssql/bin/mssql-conf setup
+systemctl status mssql-server --no-pager
+```
+
+Install the SQL Server command-line tools
+
+```bash
+curl -sSL -O https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install mssql-tools18 unixodbc-dev
+sudo apt install msodbcsql18
+```
+
+
+### Generate Database from schema.sql
+
+```bash
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourPassword123!' -Q "CREATE DATABASE data_warehouse" -C 
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourPassword123!' -d data_warehouse -i schema.sql -C
+```
+
+
 ## Kimball Star Schema Methodology
 
 This project implements Ralph Kimball's dimensional modeling approach:
@@ -55,112 +89,6 @@ CompanyKey | Ticker | CEO           | EffectiveDate | ExpiryDate | IsCurrent
 - **FactFinancials** - Quarterly financial statements (revenue, margins, ROE, ROA)
 - **FactValuation** - Valuation ratios (P/E, P/S, EV/EBITDA, etc.)
 
-## Table Definitions
-
-### DimDate
-
-| Column | Type | Description |
-|--------|------|-------------|
-| DateKey | INT | Primary key (YYYYMMDD) |
-| FullDate | DATE | Full date value |
-| Year | INT | Calendar year |
-| Quarter | INT | Calendar quarter (1-4) |
-| Month | INT | Month number (1-12) |
-| MonthName | VARCHAR(15) | Month name |
-| Week | INT | Week of year |
-| DayOfWeek | VARCHAR(10) | Day name |
-| IsWeekend | BIT | Weekend flag |
-| FiscalYear | INT | Federal fiscal year (Oct-Sep) |
-| FiscalQuarter | INT | Federal fiscal quarter |
-
-### DimCompany
-
-| Column | Type | Description |
-|--------|------|-------------|
-| CompanyKey | INT IDENTITY | Surrogate primary key |
-| Ticker | VARCHAR(10) | Stock ticker symbol |
-| CompanyName | VARCHAR(100) | Full company name |
-| Sector | VARCHAR(50) | Industry sector |
-| Industry | VARCHAR(100) | Industry classification |
-| CEO | VARCHAR(100) | Chief Executive Officer |
-| Founded | INT | Year founded |
-| Headquarters | VARCHAR(100) | HQ location |
-| Employees | INT | Employee count |
-| MarketCapTier | VARCHAR(20) | Mega Cap, Large Cap |
-| EffectiveDate | DATE | SCD Type 2 effective date |
-| ExpiryDate | DATE | SCD Type 2 expiry date |
-| IsCurrent | BIT | Current record flag |
-
-### DimSector
-
-| Column | Type | Description |
-|--------|------|-------------|
-| SectorKey | INT IDENTITY | Surrogate primary key |
-| SectorName | VARCHAR(50) | Sector name |
-| SectorDescription | VARCHAR(200) | Sector description |
-
-### FactDailyStock
-
-| Column | Type | Description |
-|--------|------|-------------|
-| StockFactKey | BIGINT IDENTITY | Surrogate primary key |
-| DateKey | INT | FK to DimDate |
-| CompanyKey | INT | FK to DimCompany |
-| OpenPrice | DECIMAL(12,2) | Opening price |
-| HighPrice | DECIMAL(12,2) | Daily high |
-| LowPrice | DECIMAL(12,2) | Daily low |
-| ClosePrice | DECIMAL(12,2) | Closing price |
-| Volume | BIGINT | Trading volume |
-| MarketCap | DECIMAL(18,2) | Market capitalization |
-| DailyReturn | DECIMAL(8,6) | Daily return percentage |
-| MovingAvg50 | DECIMAL(12,2) | 50-day moving average |
-| MovingAvg200 | DECIMAL(12,2) | 200-day moving average |
-| RSI | DECIMAL(6,2) | Relative Strength Index |
-
-### FactFinancials
-
-| Column | Type | Description |
-|--------|------|-------------|
-| FinancialKey | BIGINT IDENTITY | Surrogate primary key |
-| DateKey | INT | FK to DimDate |
-| CompanyKey | INT | FK to DimCompany |
-| Revenue | DECIMAL(18,2) | Total revenue |
-| GrossProfit | DECIMAL(18,2) | Gross profit |
-| OperatingIncome | DECIMAL(18,2) | Operating income |
-| NetIncome | DECIMAL(18,2) | Net income |
-| EPS | DECIMAL(10,4) | Earnings per share |
-| EBITDA | DECIMAL(18,2) | EBITDA |
-| TotalAssets | DECIMAL(18,2) | Total assets |
-| TotalLiabilities | DECIMAL(18,2) | Total liabilities |
-| CashAndEquivalents | DECIMAL(18,2) | Cash and equivalents |
-| TotalDebt | DECIMAL(18,2) | Total debt |
-| FreeCashFlow | DECIMAL(18,2) | Free cash flow |
-| RnDExpense | DECIMAL(18,2) | R&D expense |
-| GrossMargin | DECIMAL(8,4) | Gross margin ratio |
-| OperatingMargin | DECIMAL(8,4) | Operating margin ratio |
-| NetMargin | DECIMAL(8,4) | Net margin ratio |
-| ROE | DECIMAL(8,4) | Return on equity |
-| ROA | DECIMAL(8,4) | Return on assets |
-
-### FactValuation
-
-| Column | Type | Description |
-|--------|------|-------------|
-| ValuationKey | BIGINT IDENTITY | Surrogate primary key |
-| DateKey | INT | FK to DimDate |
-| CompanyKey | INT | FK to DimCompany |
-| PERatio | DECIMAL(10,2) | Price-to-earnings |
-| ForwardPE | DECIMAL(10,2) | Forward P/E |
-| PEGRatio | DECIMAL(10,4) | PEG ratio |
-| PriceToSales | DECIMAL(10,2) | Price-to-sales |
-| PriceToBook | DECIMAL(10,2) | Price-to-book |
-| EVToEBITDA | DECIMAL(10,2) | EV/EBITDA |
-| EVToRevenue | DECIMAL(10,2) | EV/Revenue |
-| DividendYield | DECIMAL(8,4) | Dividend yield |
-| Beta | DECIMAL(6,4) | Stock beta |
-| ShortRatio | DECIMAL(8,2) | Short interest ratio |
-
-
 ## Build Instructions
 
 ```bash
@@ -178,39 +106,14 @@ CompanyKey | Ticker | CEO           | EffectiveDate | ExpiryDate | IsCurrent
 ### Install Boost (Linux)
 
 On Ubuntu/Debian:
-```
+```bash
 sudo apt install libboost-all-dev
 ```
 
-On Fedora/RHEL:
-
-```
-sudo dnf install boost-devel
-```
-
-On Windows, build from source 
-```batch
+On Windows, build from source:
+```bash
 build.boost.bat
 ```
-
-
-### Instal ODBC drivers (Linux)
-
-# Install unixODBC driver manager
-```
-sudo apt update
-sudo apt install unixodbc unixodbc-dev
-```
-
-# For SQL Server
-```
-sudo apt install odbcinst
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-sudo apt update
-sudo ACCEPT_EULA=Y apt install msodbcsql18
-```
-
 
 ## Executables
 
@@ -234,7 +137,7 @@ The `web` application provides an interactive web interface built with the [Wt C
 ### Running the Web Server
 
 ```bash
-./finmart_web --http-address=0.0.0.0 --http-port=8080 --docroot=.
+./web --http-address=0.0.0.0 --http-port=8080 --docroot=.
 ```
 
 Access the application at `http://localhost:8080`
@@ -245,14 +148,6 @@ Access the application at `http://localhost:8080`
 |----------|-------------|---------|
 | FINMART_SERVER | SQL Server hostname | localhost |
 | FINMART_DATABASE | Database name | data_warehouse |
-
-### Dependencies
-
-| Library | Version | Description |
-|---------|---------|-------------|
-| Wt | 4.12.1 | C++ web framework |
-| Boost | 1.88.0 | C++ libraries (filesystem, thread, program_options, chrono) |
-| ODBC | - | Database connectivity |
 
 ## CSV Data Format
 
@@ -313,15 +208,6 @@ FROM FactFinancials ff
 JOIN DimCompany c ON ff.CompanyKey = c.CompanyKey
 WHERE c.IsCurrent = 1
 ORDER BY ff.Revenue DESC;
-```
-
-### SCD Type 2 History Query
-
-```sql
-SELECT Ticker, CEO, EffectiveDate, ExpiryDate, IsCurrent
-FROM DimCompany
-WHERE Ticker = 'MSFT'
-ORDER BY EffectiveDate;
 ```
 
 ## Top 50 Companies Included
