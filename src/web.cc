@@ -217,14 +217,13 @@ void WApplicationFinmart::setup_navbar()
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   navbar = container->addWidget(std::make_unique<Wt::WNavigationBar>());
-  navbar->setTitle("FinMart", "");
   navbar->setResponsive(false);
-
-  Wt::WCssDecorationStyle navbar_style;
-  navbar_style.setBackgroundColor(Wt::WColor(33, 37, 41));
-  navbar->setDecorationStyle(navbar_style);
+  Wt::WCssDecorationStyle style;
+  style.setBackgroundColor(Wt::WColor(0, 200, 0));
+  navbar->setDecorationStyle(style);
 
   contents = container->addWidget(std::make_unique<Wt::WStackedWidget>());
+  contents->setMargin(Wt::WLength(0), Wt::Side::Top);
 
   menu = navbar->addMenu(std::make_unique<Wt::WMenu>(contents));
 
@@ -275,7 +274,8 @@ void WApplicationFinmart::setup_navbar()
 
 void WApplicationFinmart::setup_dashboard()
 {
-  dashboard_view->setPadding(Wt::WLength(20, Wt::LengthUnit::Pixel));
+  dashboard_view->setMargin(Wt::WLength(5, Wt::LengthUnit::Pixel), Wt::Side::Top);
+  dashboard_view->setPadding(Wt::WLength(10, Wt::LengthUnit::Pixel), Wt::Side::Left | Wt::Side::Right | Wt::Side::Bottom);
 
   Wt::WText* title = dashboard_view->addWidget(std::make_unique<Wt::WText>("<h2>Market Dashboard</h2>"));
 
@@ -380,7 +380,8 @@ void WApplicationFinmart::setup_dashboard()
 
 void WApplicationFinmart::setup_companies()
 {
-  companies_view->setPadding(Wt::WLength(20, Wt::LengthUnit::Pixel));
+  companies_view->setMargin(Wt::WLength(5, Wt::LengthUnit::Pixel), Wt::Side::Top);
+  companies_view->setPadding(Wt::WLength(10, Wt::LengthUnit::Pixel), Wt::Side::Left | Wt::Side::Right | Wt::Side::Bottom);
 
   Wt::WText* title = companies_view->addWidget(std::make_unique<Wt::WText>("<h2>Companies</h2>"));
 
@@ -427,7 +428,8 @@ void WApplicationFinmart::setup_companies()
 
 void WApplicationFinmart::setup_stocks()
 {
-  stocks_view->setPadding(Wt::WLength(20, Wt::LengthUnit::Pixel));
+  stocks_view->setMargin(Wt::WLength(5, Wt::LengthUnit::Pixel), Wt::Side::Top);
+  stocks_view->setPadding(Wt::WLength(10, Wt::LengthUnit::Pixel), Wt::Side::Left | Wt::Side::Right | Wt::Side::Bottom);
 
   Wt::WText* title = stocks_view->addWidget(std::make_unique<Wt::WText>("<h2>Stock Data</h2>"));
 
@@ -474,7 +476,8 @@ void WApplicationFinmart::setup_stocks()
 
 void WApplicationFinmart::setup_financials()
 {
-  financials_view->setPadding(Wt::WLength(20, Wt::LengthUnit::Pixel));
+  financials_view->setMargin(Wt::WLength(5, Wt::LengthUnit::Pixel), Wt::Side::Top);
+  financials_view->setPadding(Wt::WLength(10, Wt::LengthUnit::Pixel), Wt::Side::Left | Wt::Side::Right | Wt::Side::Bottom);
 
   Wt::WText* title = financials_view->addWidget(std::make_unique<Wt::WText>("<h2>Financial Statements</h2>"));
 
@@ -488,7 +491,8 @@ void WApplicationFinmart::setup_financials()
 
 void WApplicationFinmart::setup_sectors()
 {
-  sectors_view->setPadding(Wt::WLength(20, Wt::LengthUnit::Pixel));
+  sectors_view->setMargin(Wt::WLength(5, Wt::LengthUnit::Pixel), Wt::Side::Top);
+  sectors_view->setPadding(Wt::WLength(10, Wt::LengthUnit::Pixel), Wt::Side::Left | Wt::Side::Right | Wt::Side::Bottom);
 
   Wt::WText* title = sectors_view->addWidget(std::make_unique<Wt::WText>("<h2>Sector Analysis</h2>"));
 

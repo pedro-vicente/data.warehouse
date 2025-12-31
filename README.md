@@ -2,7 +2,64 @@
 
 A Kimball-style star schema data warehouse for tracking the top 50 US companies by market capitalization, implemented with C++ and ODBC for Microsoft SQL Server.
 
-## Quick Start - Database Setup (Linux)
+## Kimball Star Schema Methodology
+
+This project implements Ralph Kimball's dimensional modeling approach:
+
+**Live Demo:** http://nostro.cloud:9500/
+
+![Star Schema Diagram](https://github.com/user-attachments/assets/b8f07cda-74e0-45d2-a880-4e33953b7c83)
+
+```
+                      ┌─────────────┐
+                      │   DimDate   │
+                      └──────┬──────┘
+                             │
+  ┌─────────────┐     ┌──────┴──────┐     ┌─────────────┐
+  │ DimCompany  │────►│ FactStock   │◄────│  DimSector  │
+  └─────────────┘     └─────────────┘     └─────────────┘
+                             │
+                      ┌──────┴──────┐
+                      │FactFinancial│
+                      └─────────────┘
+```
+
+## Schema Design
+
+### Dimension Tables
+
+- **DimDate** - Calendar dimension with fiscal year support (Federal Oct-Sep)
+- **DimCompany** - Company attributes with SCD Type 2 for historical tracking
+- **DimSector** - Industry sector classification
+
+### Fact Tables
+
+- **FactDailyStock** - Daily stock prices, volume, market cap, technical indicators
+- **FactFinancials** - Quarterly financial statements (revenue, margins, ROE, ROA)
+- **FactValuation** - Valuation ratios (P/E, P/S, EV/EBITDA, etc.)
+
+## Build Instructions
+
+### Install Boost (Linux)
+
+On Ubuntu/Debian:
+```bash
+sudo apt install libboost-all-dev
+```
+
+On Windows, build from source:
+```bash
+build.boost.bat
+```
+
+build with 
+
+```bash
+./build.wt.sh
+./build.cmake.sh
+```
+
+## Database Setup (Linux)
 
 ### Prerequisites
 
@@ -27,92 +84,11 @@ sudo apt-get install mssql-tools18 unixodbc-dev
 sudo apt install msodbcsql18
 ```
 
-
 ### Generate Database from schema.sql
 
 ```bash
 /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourPassword123!' -Q "CREATE DATABASE data_warehouse" -C 
 /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourPassword123!' -d data_warehouse -i schema.sql -C
-```
-
-
-## Kimball Star Schema Methodology
-
-This project implements Ralph Kimball's dimensional modeling approach:
-
-```
-                      ┌─────────────┐
-                      │   DimDate   │
-                      └──────┬──────┘
-                             │
-  ┌─────────────┐     ┌──────┴──────┐     ┌─────────────┐
-  │ DimCompany  │────►│ FactStock   │◄────│  DimSector  │
-  └─────────────┘     └─────────────┘     └─────────────┘
-                             │
-                      ┌──────┴──────┐
-                      │FactFinancial│
-                      └─────────────┘
-```
-
-### Key Concepts
-
-| Concept | Description |
-|---------|-------------|
-| **Fact Tables** | Numeric measurements (prices, volume, revenue) with foreign keys |
-| **Dimension Tables** | Descriptive attributes (company name, sector, dates) |
-| **Surrogate Keys** | System-generated keys (CompanyKey) vs natural keys (Ticker) |
-| **Star Schema** | Denormalized dimensions for query performance |
-| **Conformed Dimensions** | Shared dimensions across multiple fact tables |
-
-### SCD Type 2 (Slowly Changing Dimensions)
-
-DimCompany tracks historical changes by expiring old records and inserting new ones:
-
-```
-CompanyKey | Ticker | CEO           | EffectiveDate | ExpiryDate | IsCurrent
------------+--------+---------------+---------------+------------+----------
-1          | MSFT   | Satya Nadella | 2020-01-01    | 2025-06-01 | 0
-2          | MSFT   | New CEO       | 2025-06-01    | NULL       | 1
-```
-
-## Schema Design
-
-### Dimension Tables
-
-- **DimDate** - Calendar dimension with fiscal year support (Federal Oct-Sep)
-- **DimCompany** - Company attributes with SCD Type 2 for historical tracking
-- **DimSector** - Industry sector classification
-
-### Fact Tables
-
-- **FactDailyStock** - Daily stock prices, volume, market cap, technical indicators
-- **FactFinancials** - Quarterly financial statements (revenue, margins, ROE, ROA)
-- **FactValuation** - Valuation ratios (P/E, P/S, EV/EBITDA, etc.)
-
-## Build Instructions
-
-```bash
-./build.cmake.sh
-```
-
-### Prerequisites
-
-- CMake 3.28 or higher
-- C++17 compatible compiler (GCC 13, Clang, MSVC 2022)
-- Boost 1.88 libraries
-- OpenSSL 3.0+
-- ODBC driver (unixODBC on Linux, built-in on Windows/macOS)
-
-### Install Boost (Linux)
-
-On Ubuntu/Debian:
-```bash
-sudo apt install libboost-all-dev
-```
-
-On Windows, build from source:
-```bash
-build.boost.bat
 ```
 
 ## Executables
@@ -137,17 +113,10 @@ The `web` application provides an interactive web interface built with the [Wt C
 ### Running the Web Server
 
 ```bash
-./web --http-address=0.0.0.0 --http-port=8080 --docroot=.
+./web -S localhost -d data_warehouse -U sa -P password  --http-address=0.0.0.0 --http-port=8080 --docroot=.
 ```
 
 Access the application at `http://localhost:8080`
-
-### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| FINMART_SERVER | SQL Server hostname | localhost |
-| FINMART_DATABASE | Database name | data_warehouse |
 
 ## CSV Data Format
 
