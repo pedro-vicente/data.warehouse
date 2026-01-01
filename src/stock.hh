@@ -1,0 +1,90 @@
+#ifndef STOCK_HH
+#define STOCK_HH
+
+#include <string>
+#include <vector>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// StockQuote
+// daily OHLCV data for a single day
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct StockQuote
+{
+  std::string ticker;
+  std::string date;
+  double open;
+  double high;
+  double low;
+  double close;
+  double adjusted_close;
+  long long volume;
+  double daily_return;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// CompanyInfo
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct CompanyInfo
+{
+  std::string ticker;
+  std::string name;
+  std::string sector;
+  std::string industry;
+  std::string exchange;
+  std::string country;
+  long long market_cap;
+  int employees;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// FinancialStatement
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct FinancialStatement
+{
+  std::string ticker;
+  std::string fiscal_date;
+  double revenue;
+  double gross_profit;
+  double operating_income;
+  double net_income;
+  double ebitda;
+  double total_assets;
+  double total_liabilities;
+  double cash;
+  double total_debt;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Alpha Vantage API functions
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
+  std::vector<StockQuote>& quotes, int limit);
+
+int fetch_company_overview(const std::string& api_key, const std::string& ticker,
+  CompanyInfo& info);
+
+int fetch_income_statement(const std::string& api_key, const std::string& ticker,
+  std::vector<FinancialStatement>& statements);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// CSV export functions
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename);
+int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::string& filename);
+int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// utility functions
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string get_market_cap_tier(long long market_cap);
+std::vector<std::string> split_csv_line(const std::string& line);
+double safe_stod(const std::string& str);
+long long safe_stoll(const std::string& str);
+
+#endif

@@ -1,6 +1,6 @@
 # Top US Companies Data Warehouse
 
-A Kimball-style star schema data warehouse for tracking the top 50 US companies by market capitalization, implemented with C++ and ODBC for Microsoft SQL Server.
+Data warehouse for tracking the top 50 US companies by market capitalization, implemented with C++ and ODBC for Microsoft SQL Server.
 
 ## Kimball Star Schema Methodology
 
@@ -192,6 +192,142 @@ ORDER BY ff.Revenue DESC;
 | Energy | XOM, CVX |
 | Industrials | GE, CAT |
 | Materials | LIN |
+
+## Data Sources - Alpha Vantage REST API
+
+The CSV data files are populated using the [Alpha Vantage](https://www.alphavantage.co) REST API. Alpha Vantage provides free APIs for real-time and historical stock market data.
+
+### API Key
+
+Get a free API key from: https://www.alphavantage.co/support/#api-key
+
+Save the key to `alpha.vantage.txt`:
+```bash
+echo "YOUR_API_KEY" > alpha.vantage.txt
+```
+
+### API Endpoints Used
+
+#### TIME_SERIES_DAILY - Stock Prices
+
+Returns daily OHLCV (Open, High, Low, Close, Volume) data.
+
+**Request:**
+```
+GET https://www.alphavantage.co/query
+    ?function=TIME_SERIES_DAILY
+    &symbol=AAPL
+    &apikey=YOUR_API_KEY
+    &datatype=csv
+    &outputsize=compact
+```
+
+**Parameters:**
+
+| Parameter | Description |
+|-----------|-------------|
+| function | `TIME_SERIES_DAILY` for daily prices |
+| symbol | Stock ticker symbol (e.g., AAPL, MSFT) |
+| apikey | Your Alpha Vantage API key |
+| datatype | `csv` for CSV format, `json` for JSON |
+| outputsize | `compact` (100 days) or `full` (20+ years) |
+
+**CSV Response:**
+```csv
+timestamp,open,high,low,close,volume
+2025-12-30,254.12,257.89,253.45,256.78,45678900
+2025-12-29,252.50,255.00,251.80,254.12,38901234
+```
+
+#### Company Information
+
+Returns company profile, financials summary, and key statistics.
+
+**Request:**
+```
+GET https://www.alphavantage.co/query
+    ?function=OVERVIEW
+    &symbol=AAPL
+    &apikey=YOUR_API_KEY
+```
+
+**JSON Response (selected fields):**
+```json
+{
+  "Symbol": "AAPL",
+  "Name": "Apple Inc",
+  "Sector": "Technology",
+  "Industry": "Consumer Electronics",
+  "MarketCapitalization": "3890000000000",
+  "Exchange": "NASDAQ",
+  "Country": "USA",
+  "FullTimeEmployees": "164000"
+}
+```
+
+#### INCOME_STATEMENT - Financial Statements
+
+Returns annual and quarterly income statements.
+
+**Request:**
+```
+GET https://www.alphavantage.co/query
+    ?function=INCOME_STATEMENT
+    &symbol=AAPL
+    &apikey=YOUR_API_KEY
+```
+
+**JSON Response (selected fields):**
+```json
+{
+  "symbol": "AAPL",
+  "quarterlyReports": [
+    {
+      "fiscalDateEnding": "2025-09-30",
+      "totalRevenue": "94930000000",
+      "grossProfit": "43900000000",
+      "operatingIncome": "29600000000",
+      "netIncome": "24300000000",
+      "ebitda": "33200000000"
+    }
+  ]
+}
+```
+
+### C++ Data Fetcher
+
+The included `fetch` program uses the Alpha Vantage API with the same Boost.Asio/OpenSSL stack as the main application.
+
+```bash
+# Build
+./build.cmake.sh
+
+# Run (reads API key from alpha.vantage.txt)
+./fetch
+```
+
+**HTTP Request Format:**
+```cpp
+std::stringstream http;
+http << "GET " << path << " HTTP/1.1\r\n";
+http << "Host: www.alphavantage.co\r\n";
+http << "User-Agent: Mozilla/5.0\r\n";
+http << "Accept: */*\r\n";
+http << "Connection: close\r\n\r\n";
+```
+
+### Other Available Endpoints
+
+| Endpoint | Description | Free |
+|----------|-------------|------|
+| TIME_SERIES_DAILY | Daily OHLCV prices | ✓ |
+| TIME_SERIES_DAILY_ADJUSTED | Daily prices with splits/dividends | Premium |
+| TIME_SERIES_INTRADAY | 1min to 60min intervals | ✓ |
+| OVERVIEW | Company profile and stats | ✓ |
+| INCOME_STATEMENT | Quarterly/annual income | ✓ |
+| BALANCE_SHEET | Quarterly/annual balance sheet | ✓ |
+| CASH_FLOW | Quarterly/annual cash flow | ✓ |
+| EARNINGS | Quarterly/annual EPS | ✓ |
 
 ## ETL Pipeline
 
