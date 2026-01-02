@@ -51,6 +51,22 @@ struct FinancialStatement
   double operating_income;
   double net_income;
   double ebitda;
+
+  double total_assets;
+  double total_liabilities;
+  double cash;
+  double total_debt;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// BalanceSheet
+// separate struct for balance sheet data before merging
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+struct BalanceSheet
+{
+  std::string ticker;
+  std::string fiscal_date;
   double total_assets;
   double total_liabilities;
   double cash;
@@ -70,6 +86,12 @@ int fetch_company_overview(const std::string& api_key, const std::string& ticker
 int fetch_income_statement(const std::string& api_key, const std::string& ticker,
   std::vector<FinancialStatement>& statements);
 
+int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
+  std::vector<BalanceSheet>& sheets);
+
+int merge_balance_sheet(std::vector<FinancialStatement>& statements,
+  const std::vector<BalanceSheet>& sheets);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // CSV export functions
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,14 +99,5 @@ int fetch_income_statement(const std::string& api_key, const std::string& ticker
 int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename);
 int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::string& filename);
 int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// utility functions
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-std::string get_market_cap_tier(long long market_cap);
-std::vector<std::string> split_csv_line(const std::string& line);
-double safe_stod(const std::string& str);
-long long safe_stoll(const std::string& str);
 
 #endif
