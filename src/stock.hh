@@ -20,6 +20,7 @@ struct StockQuote
   double adjusted_close;
   long long volume;
   double daily_return;
+  long long market_cap;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +98,7 @@ int merge_balance_sheet(std::vector<FinancialStatement>& statements,
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename);
-int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::string& filename);
+int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies, const std::string& filename);
 int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename);
 
 #endif

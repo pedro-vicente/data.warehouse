@@ -69,10 +69,9 @@ void usage(const char* program_name)
   std::cout << "  --all           Fetch all data types (default)" << std::endl;
   std::cout << std::endl;
   std::cout << "Other options:" << std::endl;
-  std::cout << "  -k, --key FILE  API key file (default: alpha.vantage.txt)" << std::endl;
   std::cout << "  -t, --ticker SYM  Fetch single ticker only" << std::endl;
   std::cout << "  -n, --count N   Number of tickers to fetch (default: all)" << std::endl;
-  std::cout << "  -d, --days N    Days of stock history (default: 30)" << std::endl;
+  std::cout << "  -d, --days N    Days of stock history (default: 2)" << std::endl;
   std::cout << "  -w, --wait N    Seconds between API calls (default: 12)" << std::endl;
   std::cout << "  --test          Test mode: 1 ticker, 2 sec wait" << std::endl;
   std::cout << "  -h, --help      Display this help message" << std::endl;
@@ -103,7 +102,7 @@ int main(int argc, char* argv[])
   std::string key_file = "alpha.vantage.txt";
   std::string single_ticker;
   int ticker_count = -1;
-  int days = 30;
+  int days = 2;
   int wait = 12;
   bool test_mode = false;
 
@@ -160,10 +159,6 @@ int main(int argc, char* argv[])
       fetch_balance = true;
       any_fetch_specified = true;
     }
-    else if ((arg == "-k" || arg == "--key") && idx + 1 < argc)
-    {
-      key_file = argv[++idx];
-    }
     else if ((arg == "-t" || arg == "--ticker") && idx + 1 < argc)
     {
       single_ticker = argv[++idx];
@@ -186,7 +181,6 @@ int main(int argc, char* argv[])
     }
     else
     {
-      std::cerr << "Unknown option: " << arg << std::endl;
       usage(argv[0]);
       return 1;
     }
@@ -269,11 +263,38 @@ int main(int argc, char* argv[])
   std::cout << std::endl;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // fetch company info (needed for market cap in stock data)
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  std::vector<CompanyInfo> companies;
+
+  if (fetch_companies || fetch_stocks)
+  {
+    for (size_t idx = 0; idx < size; ++idx)
+    {
+      CompanyInfo info;
+      if (fetch_company_overview(api_key, tickers[idx], info) == 0)
+      {
+        companies.push_back(info);
+      }
+
+      std::this_thread::sleep_for(std::chrono::seconds(wait));
+    }
+
+    if (fetch_companies)
+    {
+      export_companies_csv(companies, "companies.csv");
+    }
+    std::cout << std::endl;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
   // fetch stock prices 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (fetch_stocks)
   {
+
     std::vector<StockQuote> quotes;
 
     for (size_t idx = 0; idx < size; ++idx)
@@ -287,30 +308,7 @@ int main(int argc, char* argv[])
       std::this_thread::sleep_for(std::chrono::seconds(wait));
     }
 
-    export_stock_data_csv(quotes, "stock_data.csv");
-    std::cout << std::endl;
-  }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  // fetch company info
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  if (fetch_companies)
-  {
-    std::vector<CompanyInfo> companies;
-
-    for (size_t idx = 0; idx < size; ++idx)
-    {
-      CompanyInfo info;
-      if (fetch_company_overview(api_key, tickers[idx], info) == 0)
-      {
-        companies.push_back(info);
-      }
-
-      std::this_thread::sleep_for(std::chrono::seconds(wait));
-    }
-
-    export_companies_csv(companies, "companies.csv");
+    export_stock_data_csv(quotes, companies, "stock_data.csv");
     std::cout << std::endl;
   }
 

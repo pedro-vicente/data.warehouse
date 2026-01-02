@@ -95,6 +95,8 @@ int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
       quote.daily_return = 0.0;
     }
 
+    quote.market_cap = 0;
+
     quotes.push_back(quote);
     ++count;
   }
@@ -395,7 +397,7 @@ int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::s
 // export_stock_data_csv
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::string& filename)
+int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies, const std::string& filename)
 {
   std::ofstream ofs(filename);
   if (!ofs.is_open())
@@ -404,11 +406,23 @@ int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::stri
   }
 
   ofs << "Ticker,Date,OpenPrice,HighPrice,LowPrice,ClosePrice,Volume,MarketCap,DailyReturn\n";
-  ofs << std::fixed << std::setprecision(2);
+  ofs << std::fixed << std::setprecision(1);
 
   for (size_t idx = 0; idx < quotes.size(); ++idx)
   {
     const StockQuote& q = quotes[idx];
+
+    // look up market cap from companies by ticker
+    long long market_cap = 0;
+    for (size_t jdx = 0; jdx < companies.size(); ++jdx)
+    {
+      if (companies[jdx].ticker == q.ticker)
+      {
+        market_cap = companies[jdx].market_cap;
+        break;
+      }
+    }
+
     ofs << q.ticker << ","
       << q.date << ","
       << q.open << ","
@@ -416,8 +430,8 @@ int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::stri
       << q.low << ","
       << q.close << ","
       << q.volume << ","
-      << "0" << ","
-      << std::setprecision(4) << q.daily_return << std::setprecision(2) << "\n";
+      << market_cap << ","
+      << q.daily_return << "\n";
   }
 
   ofs.close();
@@ -442,7 +456,7 @@ int export_financials_csv(const std::vector<FinancialStatement>& statements, con
     << "TotalAssets,TotalLiabilities,CashAndEquivalents,TotalDebt,FreeCashFlow,RnDExpense,"
     << "GrossMargin,OperatingMargin,NetMargin,ROE,ROA\n";
 
-  ofs << std::fixed << std::setprecision(0);
+  ofs << std::fixed << std::setprecision(1);
 
   for (size_t idx = 0; idx < statements.size(); ++idx)
   {
@@ -471,11 +485,11 @@ int export_financials_csv(const std::vector<FinancialStatement>& statements, con
       << s.total_debt << ","
       << "0" << ","
       << "0" << ","
-      << std::setprecision(4) << gross_margin << ","
+      << gross_margin << ","
       << operating_margin << ","
       << net_margin << ","
       << roe << ","
-      << roa << std::setprecision(0) << "\n";
+      << roa << "\n";
   }
 
   ofs.close();

@@ -12,6 +12,7 @@
 #include <Wt/WBorder.h>
 #include <sstream>
 #include <iomanip>
+#include <string>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -291,48 +292,7 @@ void WApplicationFinmart::setup_dashboard()
 
   Wt::WContainerWidget* row = dashboard_view->addWidget(std::make_unique<Wt::WContainerWidget>());
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-  // top 10 by market cap
-  /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  Wt::WContainerWidget* col = row->addWidget(std::make_unique<Wt::WContainerWidget>());
-
-  Wt::WGroupBox* box = col->addWidget(std::make_unique<Wt::WGroupBox>("Top 10 Companies by Market Cap"));
-
-  Wt::WTable* table = box->addWidget(std::make_unique<Wt::WTable>());
-  table->setHeaderCount(1);
-
-  add_header_cell(table, 0, 0, "Rank");
-  add_header_cell(table, 0, 1, "Ticker");
-  add_header_cell(table, 0, 2, "Company");
-  add_header_cell(table, 0, 3, "Market Cap");
-
-  std::string sql =
-    "SELECT TOP 10 c.Ticker, c.CompanyName, f.MarketCap/1e12 AS MarketCapT, "
-    "RANK() OVER (ORDER BY f.MarketCap DESC) AS Rank "
-    "FROM FactDailyStock f "
-    "JOIN DimCompany c ON f.CompanyKey = c.CompanyKey "
-    "WHERE c.IsCurrent = 1 "
-    "AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock) "
-    "ORDER BY Rank";
-
   table_t tbl;
-  if (odbc.fetch(sql, tbl) == 0)
-  {
-    for (size_t idx = 0; idx < tbl.rows.size(); idx++)
-    {
-      int row = static_cast<int>(idx) + 1;
-      std::string rank = tbl.get_row_col_value(static_cast<int>(idx), "Rank");
-      std::string ticker = tbl.get_row_col_value(static_cast<int>(idx), "Ticker");
-      std::string name = tbl.get_row_col_value(static_cast<int>(idx), "CompanyName");
-      std::string mcap = tbl.get_row_col_value(static_cast<int>(idx), "MarketCapT");
-
-      add_cell(table, row, 0, rank);
-      add_cell(table, row, 1, ticker);
-      add_cell(table, row, 2, name);
-      add_currency_cell(table, row, 3, mcap, "T");
-    }
-  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // sector breakdown
@@ -370,6 +330,54 @@ void WApplicationFinmart::setup_dashboard()
       add_cell(sector_table, row, 0, sector);
       add_cell(sector_table, row, 1, cnt);
       add_currency_cell(sector_table, row, 2, total, "T");
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+  // all companies in database
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  dashboard_view->addWidget(std::make_unique<Wt::WBreak>());
+
+  Wt::WGroupBox* all_box = dashboard_view->addWidget(std::make_unique<Wt::WGroupBox>("All Companies in Database"));
+
+  Wt::WTable* all_table = all_box->addWidget(std::make_unique<Wt::WTable>());
+  all_table->setHeaderCount(1);
+
+  add_header_cell(all_table, 0, 0, "#");
+  add_header_cell(all_table, 0, 1, "Ticker");
+  add_header_cell(all_table, 0, 2, "Company");
+  add_header_cell(all_table, 0, 3, "Sector");
+  add_header_cell(all_table, 0, 4, "Industry");
+  add_header_cell(all_table, 0, 5, "Market Cap");
+
+  std::string sql_all =
+    "SELECT c.Ticker, c.CompanyName, c.Sector, c.Industry, "
+    "COALESCE(f.MarketCap/1e9, 0) AS MarketCapB "
+    "FROM DimCompany c "
+    "LEFT JOIN (SELECT CompanyKey, MarketCap FROM FactDailyStock "
+    "WHERE DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)) f "
+    "ON c.CompanyKey = f.CompanyKey "
+    "WHERE c.IsCurrent = 1 "
+    "ORDER BY c.Ticker";
+
+  if (odbc.fetch(sql_all, tbl) == 0)
+  {
+    for (size_t idx = 0; idx < tbl.rows.size(); idx++)
+    {
+      int row = static_cast<int>(idx) + 1;
+      std::string ticker = tbl.get_row_col_value(static_cast<int>(idx), "Ticker");
+      std::string name = tbl.get_row_col_value(static_cast<int>(idx), "CompanyName");
+      std::string sector = tbl.get_row_col_value(static_cast<int>(idx), "Sector");
+      std::string industry = tbl.get_row_col_value(static_cast<int>(idx), "Industry");
+      std::string mcap = tbl.get_row_col_value(static_cast<int>(idx), "MarketCapB");
+
+      add_cell(all_table, row, 0, std::to_string(row));
+      add_cell(all_table, row, 1, ticker);
+      add_cell(all_table, row, 2, name);
+      add_cell(all_table, row, 3, sector);
+      add_cell(all_table, row, 4, industry);
+      add_currency_cell(all_table, row, 5, mcap, "B");
     }
   }
 }
@@ -634,7 +642,7 @@ void WApplicationFinmart::load_financials()
     "FROM FactFinancials ff "
     "JOIN DimCompany c ON ff.CompanyKey = c.CompanyKey "
     "WHERE c.IsCurrent = 1 "
-    "AND ff.DateKey = (SELECT MAX(DateKey) FROM FactFinancials) "
+    "AND ff.DateKey = (SELECT MAX(ff2.DateKey) FROM FactFinancials ff2 WHERE ff2.CompanyKey = ff.CompanyKey) "
     "ORDER BY ff.Revenue DESC";
 
   table_t table;
@@ -680,6 +688,7 @@ void WApplicationFinmart::load_sectors()
     "FROM FactDailyStock f "
     "JOIN DimCompany c ON f.CompanyKey = c.CompanyKey "
     "LEFT JOIN FactFinancials ff ON c.CompanyKey = ff.CompanyKey "
+    "AND ff.DateKey = (SELECT MAX(ff2.DateKey) FROM FactFinancials ff2 WHERE ff2.CompanyKey = ff.CompanyKey) "
     "WHERE c.IsCurrent = 1 "
     "AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock) "
     "GROUP BY c.Sector "
@@ -780,7 +789,20 @@ void WApplicationFinmart::add_cell(Wt::WTable* table, int row, int col, const st
 void WApplicationFinmart::add_number_cell(Wt::WTable* table, int row, int col, const std::string& text)
 {
   Wt::WTableCell* cell = table->elementAt(row, col);
-  Wt::WText* txt = cell->addWidget(std::make_unique<Wt::WText>(text));
+
+  std::string formatted = text;
+  try
+  {
+    double value = std::stod(text);
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(1) << value;
+    formatted = ss.str();
+  }
+  catch (...)
+  {
+  }
+
+  Wt::WText* txt = cell->addWidget(std::make_unique<Wt::WText>(formatted));
 
   Wt::WCssDecorationStyle cell_style;
   if (row % 2 == 0)
@@ -803,7 +825,19 @@ void WApplicationFinmart::add_number_cell(Wt::WTable* table, int row, int col, c
 void WApplicationFinmart::add_currency_cell(Wt::WTable* table, int row, int col, const std::string& text, const std::string& suffix)
 {
   Wt::WTableCell* cell = table->elementAt(row, col);
+
   std::string formatted = "$" + text + suffix;
+  try
+  {
+    double value = std::stod(text);
+    std::stringstream ss;
+    ss << "$" << std::fixed << std::setprecision(1) << value << suffix;
+    formatted = ss.str();
+  }
+  catch (...)
+  {
+  }
+
   Wt::WText* txt = cell->addWidget(std::make_unique<Wt::WText>(formatted));
 
   Wt::WCssDecorationStyle cell_style;
@@ -827,7 +861,19 @@ void WApplicationFinmart::add_currency_cell(Wt::WTable* table, int row, int col,
 void WApplicationFinmart::add_percent_cell(Wt::WTable* table, int row, int col, const std::string& text)
 {
   Wt::WTableCell* cell = table->elementAt(row, col);
+
   std::string formatted = text + "%";
+  try
+  {
+    double value = std::stod(text);
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(1) << value << "%";
+    formatted = ss.str();
+  }
+  catch (...)
+  {
+  }
+
   Wt::WText* txt = cell->addWidget(std::make_unique<Wt::WText>(formatted));
 
   Wt::WCssDecorationStyle cell_style;
@@ -851,7 +897,7 @@ void WApplicationFinmart::add_percent_cell(Wt::WTable* table, int row, int col, 
 std::string WApplicationFinmart::format_number(double value)
 {
   std::stringstream ss;
-  ss << std::fixed << std::setprecision(0) << value;
+  ss << std::fixed << std::setprecision(1) << value;
   return ss.str();
 }
 
@@ -862,7 +908,7 @@ std::string WApplicationFinmart::format_number(double value)
 std::string WApplicationFinmart::format_currency(double value, const std::string& suffix)
 {
   std::stringstream ss;
-  ss << "$" << std::fixed << std::setprecision(2) << value << suffix;
+  ss << "$" << std::fixed << std::setprecision(1) << value << suffix;
   return ss.str();
 }
 
@@ -873,7 +919,7 @@ std::string WApplicationFinmart::format_currency(double value, const std::string
 std::string WApplicationFinmart::format_percent(double value)
 {
   std::stringstream ss;
-  ss << std::fixed << std::setprecision(2) << value << "%";
+  ss << std::fixed << std::setprecision(1) << value << "%";
   return ss.str();
 }
 

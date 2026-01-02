@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
     {
       password = argv[++idx];
     }
-    else if (arg == "--delete-all")
+    else if (arg == "--delete")
     {
       delete_data = true;
     }
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
   //load date dimension
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (etl.load_date_dimension(2025, 2025) < 0)
+  if (etl.load_date_dimension(2020, 2026) < 0)
   {
     etl.disconnect();
     return 1;
@@ -215,8 +215,6 @@ int main(int argc, char* argv[])
   return 0;
 }
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //etl_t::etl_t
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -260,38 +258,32 @@ int etl_t::disconnect()
 
 int etl_t::delete_data()
 {
-  std::string sql_del_fin = "DELETE FROM FactFinancials";
-  if (odbc.exec_direct(sql_del_fin) < 0)
+  if (odbc.exec_direct("DELETE FROM FactFinancials") < 0)
   {
     assert(0);
   }
 
-  std::string sql_del_val = "DELETE FROM FactValuation";
-  if (odbc.exec_direct(sql_del_val) < 0)
+  if (odbc.exec_direct("DELETE FROM FactValuation") < 0)
   {
     assert(0);
   }
 
-  std::string sql_del_stock = "DELETE FROM FactDailyStock";
-  if (odbc.exec_direct(sql_del_stock) < 0)
+  if (odbc.exec_direct("DELETE FROM FactDailyStock") < 0)
   {
     assert(0);
   }
 
-  std::string sql_del_company = "DELETE FROM DimCompany";
-  if (odbc.exec_direct(sql_del_company) < 0)
+  if (odbc.exec_direct("DELETE FROM DimCompany") < 0)
   {
     assert(0);
   }
 
-  std::string sql_del_sector = "DELETE FROM DimSector";
-  if (odbc.exec_direct(sql_del_sector) < 0)
+  if (odbc.exec_direct("DELETE FROM DimSector") < 0)
   {
     assert(0);
   }
 
-  std::string sql_del_date = "DELETE FROM DimDate";
-  if (odbc.exec_direct(sql_del_date) < 0)
+  if (odbc.exec_direct("DELETE FROM DimDate") < 0)
   {
     assert(0);
   }
@@ -538,6 +530,7 @@ int etl_t::load_date_dimension(int start_year, int end_year)
 
         if (odbc.exec_direct(sql.str()) < 0)
         {
+          assert(0);
         }
         else
         {
@@ -610,8 +603,7 @@ int etl_t::load_companies_from_csv(const std::string& filename)
     table_t table;
     if (odbc.fetch(check_sql.str(), table) < 0)
     {
-      errors++;
-      continue;
+      assert(0);
     }
 
     if (table.rows.size() > 0)
@@ -623,14 +615,28 @@ int etl_t::load_companies_from_csv(const std::string& filename)
     //insert new company
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    std::string founded_sql = "NULL";
+    if (!founded.empty() && founded != "Unknown")
+    {
+      founded_sql = founded;
+    }
+
+    std::string employees_sql = "0";
+    if (!employees.empty() && employees != "Unknown")
+    {
+      employees_sql = employees;
+    }
+
     std::stringstream sql;
     sql << "INSERT INTO DimCompany (Ticker, CompanyName, Sector, Industry, CEO, Founded, Headquarters, Employees, MarketCapTier, EffectiveDate, IsCurrent) "
       << "VALUES ('" << ticker << "', '" << company_name << "', '" << sector << "', '" << industry << "', '"
-      << ceo << "', " << founded << ", '" << headquarters << "', " << employees << ", '" << market_cap_tier << "', GETDATE(), 1)";
+      << ceo << "', " << founded_sql << ", '" << headquarters << "', " << employees_sql << ", '" << market_cap_tier << "', GETDATE(), 1)";
 
+    std::cout << sql.str() << std::endl;
+    
     if (odbc.exec_direct(sql.str()) < 0)
     {
-      errors++;
+      assert(0);
     }
     else
     {
@@ -735,9 +741,11 @@ int etl_t::load_stock_data_from_csv(const std::string& filename)
       << "VALUES (" << date_key << ", " << company_key << ", " << open_price << ", " << high_price << ", "
       << low_price << ", " << close_price << ", " << volume << ", " << market_cap << ", " << daily_return << ")";
 
+    std::cout << sql.str() << std::endl;
+
     if (odbc.exec_direct(sql.str()) < 0)
     {
-      errors++;
+      assert(0);
     }
     else
     {
@@ -857,9 +865,11 @@ int etl_t::load_financials_from_csv(const std::string& filename)
       << cash_equiv << ", " << total_debt << ", " << free_cash_flow << ", " << rnd_expense << ", "
       << gross_margin << ", " << operating_margin << ", " << net_margin << ", " << roe << ", " << roa << ")";
 
+    std::cout << sql.str() << std::endl;
+
     if (odbc.exec_direct(sql.str()) < 0)
     {
-      errors++;
+      assert(0);
     }
     else
     {
@@ -889,7 +899,7 @@ int etl_t::update_company_scd2(const std::string& ticker, const std::string& fie
 
   if (odbc.exec_direct(sql_expire.str()) < 0)
   {
-    return -1;
+    assert(0);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -905,7 +915,7 @@ int etl_t::update_company_scd2(const std::string& ticker, const std::string& fie
 
   if (odbc.exec_direct(sql_insert.str()) < 0)
   {
-    return -1;
+    assert(0);
   }
 
   return 0;
