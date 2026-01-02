@@ -8,8 +8,9 @@
 #include <cstdlib>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//usage
+// usage
 // same syntax as sqlcmd
+// -S localhost -d data_warehouse
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void usage(const char* program_name)
@@ -23,6 +24,7 @@ void usage(const char* program_name)
   std::cout << "Optional options:" << std::endl;
   std::cout << "  -U USER       SQL Server username (omit for trusted connection)" << std::endl;
   std::cout << "  -P PASSWORD   SQL Server password" << std::endl;
+  std::cout << "  --delete  Delete all data from all tables" << std::endl;
   std::cout << std::endl;
 }
 
@@ -40,6 +42,7 @@ public:
     const std::string& user = std::string(), const std::string& password = std::string());
   int disconnect();
   int create_schema();
+  int delete_data();
   int load_date_dimension(int start_year, int end_year);
   int load_companies_from_csv(const std::string& filename);
   int load_stock_data_from_csv(const std::string& filename);
@@ -64,6 +67,7 @@ int main(int argc, char* argv[])
   std::string database;
   std::string user;
   std::string password;
+  bool delete_data = false;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   //parse command line
@@ -92,6 +96,10 @@ int main(int argc, char* argv[])
     else if (arg == "-P" && idx + 1 < argc)
     {
       password = argv[++idx];
+    }
+    else if (arg == "--delete-all")
+    {
+      delete_data = true;
     }
   }
 
@@ -133,6 +141,21 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
+  //handle --delete
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  if (delete_data)
+  {
+    if (etl.delete_data() < 0)
+    {
+      etl.disconnect();
+      return 1;
+    }
+    etl.disconnect();
+    return 0;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////
   //create schema
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,7 +169,7 @@ int main(int argc, char* argv[])
   //load date dimension
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  if (etl.load_date_dimension(2020, 2026) < 0)
+  if (etl.load_date_dimension(2025, 2025) < 0)
   {
     etl.disconnect();
     return 1;
@@ -228,6 +251,52 @@ int etl_t::connect(const std::string& server, const std::string& database,
 int etl_t::disconnect()
 {
   return odbc.disconnect();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//etl_t::delete_data
+//deletes all data from all tables (fact tables first due to foreign keys)
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int etl_t::delete_data()
+{
+  std::string sql_del_fin = "DELETE FROM FactFinancials";
+  if (odbc.exec_direct(sql_del_fin) < 0)
+  {
+    assert(0);
+  }
+
+  std::string sql_del_val = "DELETE FROM FactValuation";
+  if (odbc.exec_direct(sql_del_val) < 0)
+  {
+    assert(0);
+  }
+
+  std::string sql_del_stock = "DELETE FROM FactDailyStock";
+  if (odbc.exec_direct(sql_del_stock) < 0)
+  {
+    assert(0);
+  }
+
+  std::string sql_del_company = "DELETE FROM DimCompany";
+  if (odbc.exec_direct(sql_del_company) < 0)
+  {
+    assert(0);
+  }
+
+  std::string sql_del_sector = "DELETE FROM DimSector";
+  if (odbc.exec_direct(sql_del_sector) < 0)
+  {
+    assert(0);
+  }
+
+  std::string sql_del_date = "DELETE FROM DimDate";
+  if (odbc.exec_direct(sql_del_date) < 0)
+  {
+    assert(0);
+  }
+
+  return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

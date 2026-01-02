@@ -6,7 +6,7 @@ Data warehouse for tracking the top 50 US companies by market capitalization, im
 
 This project implements Ralph Kimball's dimensional modeling approach:
 
-**Live Demo:** http://nostro.cloud:9500/
+**Live Demo:** https://nostro.cloud:9500/
 
 ![Star Schema Diagram](https://github.com/user-attachments/assets/b8f07cda-74e0-45d2-a880-4e33953b7c83)
 
