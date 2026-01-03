@@ -42,23 +42,6 @@ if (MSVC)
   set_property(TARGET etl PROPERTY VS_DEBUGGER_COMMAND_ARGUMENTS "-S localhost -d data_warehouse")
 endif()
 
-
-#//////////////////////////
-# data files 
-#//////////////////////////
-
-set(DATA_FILES
-  "data/companies.csv"
-  "data/financials.csv"
-  "data/stock_data.csv"
-  "alpha.vantage.txt"
-)
-
-message(STATUS "Copying data files to: ${CMAKE_BINARY_DIR}")
-foreach(DATA_FILE ${DATA_FILES})
-  file(COPY "${CMAKE_SOURCE_DIR}/${DATA_FILE}" DESTINATION ${CMAKE_BINARY_DIR})
-endforeach()
-
 #//////////////////////////
 # fetch executable
 #//////////////////////////
@@ -215,3 +198,21 @@ endif()
 
 message(STATUS "lib_dep: " ${lib_dep})
 target_link_libraries(web ${lib_dep})
+
+#//////////////////////////
+# data files 
+#//////////////////////////
+
+set(DATA_FILES
+  "data/sp500_financials.csv"
+  "data/companies.csv"
+  "data/financials.csv"
+  "data/stock_data.csv"
+  "alpha.vantage.txt"
+)
+
+message(STATUS "Copying data files to: ${CMAKE_BINARY_DIR}")
+foreach(DATA_FILE ${DATA_FILES})
+  file(COPY "${CMAKE_SOURCE_DIR}/${DATA_FILE}" DESTINATION ${CMAKE_BINARY_DIR})
+endforeach()
+

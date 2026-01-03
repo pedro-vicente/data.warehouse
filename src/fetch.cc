@@ -14,43 +14,32 @@
 #include <chrono>
 #include <cstring>
 #include <cstdlib>
+#include <algorithm>
 #include "stock.hh"
 
 std::string read_key(const std::string& filename);
+int read_tickers_from_csv(const std::string& filename, std::vector<std::string>& tickers);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// top 100 US companies by market cap
+// ticker_entry_t
+// holds ticker symbol and market cap for sorting
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static const char* TOP_100_TICKERS[] =
+struct ticker_entry_t
 {
-  // Technology (25)
-  "AAPL", "MSFT", "NVDA", "AVGO", "ORCL", "AMD", "ADBE", "CSCO", "ACN", "INTC",
-  "IBM", "INTU", "NOW", "TXN", "QCOM", "CRM", "AMAT", "MU", "LRCX", "ADI",
-  "KLAC", "CDNS", "SNPS", "MRVL", "FTNT",
-  // Financials (15)
-  "BRK.B", "JPM", "V", "MA", "BAC", "WFC", "GS", "AXP", "SPGI", "MS",
-  "BLK", "C", "SCHW", "CB", "MMC",
-  // Healthcare (15)
-  "LLY", "UNH", "JNJ", "ABBV", "MRK", "TMO", "ABT", "PFE", "DHR", "BMY",
-  "AMGN", "GILD", "VRTX", "ISRG", "MDT",
-  // Consumer Discretionary (10)
-  "AMZN", "TSLA", "HD", "MCD", "NKE", "LOW", "SBUX", "TJX", "BKNG", "CMG",
-  // Communication Services (8)
-  "META", "GOOGL", "GOOG", "NFLX", "DIS", "VZ", "T", "CMCSA",
-  // Consumer Staples (10)
-  "WMT", "PG", "COST", "KO", "PEP", "PM", "MO", "CL", "MDLZ", "KHC",
-  // Energy (5)
-  "XOM", "CVX", "COP", "SLB", "EOG",
-  // Industrials (8)
-  "GE", "CAT", "RTX", "HON", "UNP", "UPS", "DE", "BA",
-  // Materials (2)
-  "LIN", "APD",
-  // Utilities (2)
-  "NEE", "DUK"
+  std::string symbol;
+  double market_cap;
 };
 
-static const int NUM_TICKERS = sizeof(TOP_100_TICKERS) / sizeof(TOP_100_TICKERS[0]);
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// compare_by_market_cap
+// comparator for sorting tickers by market cap descending
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool compare_by_market_cap(const ticker_entry_t& a, const ticker_entry_t& b)
+{
+  return a.market_cap > b.market_cap;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // usage
@@ -70,11 +59,11 @@ void usage(const char* program_name)
   std::cout << std::endl;
   std::cout << "Other options:" << std::endl;
   std::cout << "  -t, --ticker SYM  Fetch single ticker only" << std::endl;
-  std::cout << "  -n, --count N   Number of tickers to fetch (default: all)" << std::endl;
-  std::cout << "  -d, --days N    Days of stock history (default: 2)" << std::endl;
-  std::cout << "  -w, --wait N    Seconds between API calls (default: 12)" << std::endl;
-  std::cout << "  --test          Test mode: 1 ticker, 2 sec wait" << std::endl;
-  std::cout << "  -h, --help      Display this help message" << std::endl;
+  std::cout << "  -n, --count N     Number of companies to fetch (default: all)" << std::endl;
+  std::cout << "  -d, --days N      Days of stock history (default: 2)" << std::endl;
+  std::cout << "  -w, --wait N      Seconds between API calls (default: 12)" << std::endl;
+  std::cout << "  --test            Test mode: 1 company, 3 sec wait" << std::endl;
+  std::cout << "  -h, --help        Display this help message" << std::endl;
   std::cout << std::endl;
   std::cout << "Output files:" << std::endl;
   std::cout << "  stock_data.csv  Daily OHLCV data" << std::endl;
@@ -82,10 +71,10 @@ void usage(const char* program_name)
   std::cout << "  financials.csv  Financial statements" << std::endl;
   std::cout << std::endl;
   std::cout << "Examples:" << std::endl;
-  std::cout << "  " << program_name << " --test                  # test with 1 ticker" << std::endl;
-  std::cout << "  " << program_name << " --stocks -n 5           # stocks for 5 tickers" << std::endl;
-  std::cout << "  " << program_name << " --ticker AAPL --all     # all data for AAPL" << std::endl;
-  std::cout << "  " << program_name << " --financials -n 10      # financials for 10 tickers" << std::endl;
+  std::cout << "  " << program_name << " --test              # test with 1 company" << std::endl;
+  std::cout << "  " << program_name << " -n 50 --stocks      # top 50 by market cap" << std::endl;
+  std::cout << "  " << program_name << " --all               # all S&P 500 companies" << std::endl;
+  std::cout << "  " << program_name << " --ticker AAPL       # single ticker only" << std::endl;
   std::cout << std::endl;
 }
 
@@ -100,6 +89,7 @@ int main(int argc, char* argv[])
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string key_file = "alpha.vantage.txt";
+  std::string csv_file = "sp500_financials.csv";
   std::string single_ticker;
   int ticker_count = -1;
   int days = 2;
@@ -233,9 +223,9 @@ int main(int argc, char* argv[])
   }
   else
   {
-    for (int idx = 0; idx < NUM_TICKERS; ++idx)
+    if (read_tickers_from_csv(csv_file, tickers) < 0)
     {
-      tickers.push_back(TOP_100_TICKERS[idx]);
+      return 1;
     }
   }
 
@@ -251,7 +241,8 @@ int main(int argc, char* argv[])
 
   std::cout << "Fetch Configuration:" << std::endl;
   std::cout << "  API key file: " << key_file << std::endl;
-  std::cout << "  Tickers:      " << size << std::endl;
+  std::cout << "  CSV file:     " << csv_file << std::endl;
+  std::cout << "  Companies:    " << size << std::endl;
   std::cout << "  Wait time:    " << wait << " seconds" << std::endl;
   std::cout << "  Fetch types:  ";
   if (fetch_stocks) std::cout << "stocks ";
@@ -272,6 +263,8 @@ int main(int argc, char* argv[])
   {
     for (size_t idx = 0; idx < size; ++idx)
     {
+      std::cout << "\r[" << (idx + 1) << "/" << size << "] " << tickers[idx] << " - fetching company info...    " << std::flush;
+
       CompanyInfo info;
       if (fetch_company_overview(api_key, tickers[idx], info) == 0)
       {
@@ -280,10 +273,12 @@ int main(int argc, char* argv[])
 
       std::this_thread::sleep_for(std::chrono::seconds(wait));
     }
+    std::cout << std::endl;
 
     if (fetch_companies)
     {
       export_companies_csv(companies, "companies.csv");
+      std::cout << "Exported companies.csv" << std::endl;
     }
     std::cout << std::endl;
   }
@@ -299,6 +294,8 @@ int main(int argc, char* argv[])
 
     for (size_t idx = 0; idx < size; ++idx)
     {
+      std::cout << "\r[" << (idx + 1) << "/" << size << "] " << tickers[idx] << " - fetching stock prices...    " << std::flush;
+
       std::vector<StockQuote> quote;
       if (fetch_daily_stock(api_key, tickers[idx], quote, days) == 0)
       {
@@ -307,8 +304,10 @@ int main(int argc, char* argv[])
 
       std::this_thread::sleep_for(std::chrono::seconds(wait));
     }
+    std::cout << std::endl;
 
     export_stock_data_csv(quotes, companies, "stock_data.csv");
+    std::cout << "Exported stock_data.csv" << std::endl;
     std::cout << std::endl;
   }
 
@@ -326,6 +325,8 @@ int main(int argc, char* argv[])
     {
       for (size_t idx = 0; idx < size; ++idx)
       {
+        std::cout << "\r[" << (idx + 1) << "/" << size << "] " << tickers[idx] << " - fetching income statement...    " << std::flush;
+
         std::vector<FinancialStatement> statements;
         if (fetch_income_statement(api_key, tickers[idx], statements) == 0)
         {
@@ -342,6 +343,8 @@ int main(int argc, char* argv[])
     {
       for (size_t idx = 0; idx < size; ++idx)
       {
+        std::cout << "\r[" << (idx + 1) << "/" << size << "] " << tickers[idx] << " - fetching balance sheet...    " << std::flush;
+
         std::vector<BalanceSheet> sheets;
         if (fetch_balance_sheet(api_key, tickers[idx], sheets) == 0)
         {
@@ -363,6 +366,7 @@ int main(int argc, char* argv[])
     if (fetch_income)
     {
       export_financials_csv(financials, "financials.csv");
+      std::cout << "Exported financials.csv" << std::endl;
       std::cout << std::endl;
     }
   }
@@ -395,4 +399,118 @@ std::string read_key(const std::string& filename)
   }
 
   return key;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// read_tickers_from_csv
+// reads tickers from CSV file with columns: Symbol,Name,Sector,...,Market Cap,...
+// sorts by market cap descending
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int read_tickers_from_csv(const std::string& filename, std::vector<std::string>& tickers)
+{
+  std::ifstream ifs(filename);
+  if (!ifs.is_open())
+  {
+    return -1;
+  }
+
+  std::vector<ticker_entry_t> entries;
+  std::string line;
+  bool first_line = true;
+  int symbol_col = -1;
+  int market_cap_col = -1;
+
+  while (std::getline(ifs, line))
+  {
+    // remove carriage return if present
+    if (!line.empty() && line[line.size() - 1] == '\r')
+    {
+      line = line.substr(0, line.size() - 1);
+    }
+
+    // parse CSV fields (handle quoted fields)
+    std::vector<std::string> fields;
+    std::string field;
+    bool in_quotes = false;
+
+    for (size_t idx = 0; idx < line.size(); ++idx)
+    {
+      char c = line[idx];
+      if (c == '"')
+      {
+        in_quotes = !in_quotes;
+      }
+      else if (c == ',' && !in_quotes)
+      {
+        fields.push_back(field);
+        field.clear();
+      }
+      else
+      {
+        field += c;
+      }
+    }
+    fields.push_back(field);
+
+    // find column indices from header
+    if (first_line)
+    {
+      first_line = false;
+      for (size_t idx = 0; idx < fields.size(); ++idx)
+      {
+        if (fields[idx] == "Symbol")
+        {
+          symbol_col = static_cast<int>(idx);
+        }
+        else if (fields[idx] == "Market Cap")
+        {
+          market_cap_col = static_cast<int>(idx);
+        }
+      }
+
+      if (symbol_col < 0)
+      {
+        ifs.close();
+        return -1;
+      }
+      continue;
+    }
+
+    // extract ticker and market cap
+    if (symbol_col >= 0 && static_cast<size_t>(symbol_col) < fields.size())
+    {
+      ticker_entry_t entry;
+      entry.symbol = fields[symbol_col];
+      entry.market_cap = 0.0;
+
+      if (market_cap_col >= 0 && static_cast<size_t>(market_cap_col) < fields.size())
+      {
+        std::string mcap_str = fields[market_cap_col];
+        if (!mcap_str.empty())
+        {
+          entry.market_cap = std::stod(mcap_str);
+        }
+      }
+
+      if (!entry.symbol.empty())
+      {
+        entries.push_back(entry);
+      }
+    }
+  }
+
+  ifs.close();
+
+  // sort by market cap descending
+  std::sort(entries.begin(), entries.end(), compare_by_market_cap);
+
+  // extract tickers
+  tickers.clear();
+  for (size_t idx = 0; idx < entries.size(); ++idx)
+  {
+    tickers.push_back(entries[idx].symbol);
+  }
+
+  return 0;
 }
