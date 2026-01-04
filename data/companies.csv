@@ -2,5 +2,491 @@ Ticker,CompanyName,Sector,Industry,CEO,Founded,Headquarters,Employees,MarketCapT
 AAPL,Apple Inc,TECHNOLOGY,CONSUMER ELECTRONICS,Unknown,Unknown,USA,0,Mega Cap
 MSFT,Microsoft Corporation,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Mega Cap
 NVDA,NVIDIA Corporation,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mega Cap
+GOOGL,Alphabet Inc Class A,COMMUNICATION SERVICES,INTERNET CONTENT & INFORMATION,Unknown,Unknown,USA,0,Mega Cap
+GOOG,Alphabet Inc Class C,COMMUNICATION SERVICES,INTERNET CONTENT & INFORMATION,Unknown,Unknown,USA,0,Mega Cap
+AMZN,Amazon.com Inc,CONSUMER CYCLICAL,INTERNET RETAIL,Unknown,Unknown,USA,0,Mega Cap
+META,Meta Platforms Inc.,COMMUNICATION SERVICES,INTERNET CONTENT & INFORMATION,Unknown,Unknown,USA,0,Mega Cap
+TSLA,Tesla Inc,CONSUMER CYCLICAL,AUTO MANUFACTURERS,Unknown,Unknown,USA,0,Mega Cap
 AVGO,Broadcom Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mega Cap
+WMT,Walmart Inc. Common Stock,CONSUMER DEFENSIVE,DISCOUNT STORES,Unknown,Unknown,USA,0,Mega Cap
+JPM,JPMorgan Chase & Co,FINANCIAL SERVICES,BANKS - DIVERSIFIED,Unknown,Unknown,USA,0,Mega Cap
+LLY,Eli Lilly and Company,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Mega Cap
+V,Visa Inc. Class A,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Mega Cap
+MA,Mastercard Inc,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Mega Cap
+UNH,UnitedHealth Group Incorporated,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Mega Cap
+XOM,Exxon Mobil Corp,ENERGY,OIL & GAS INTEGRATED,Unknown,Unknown,USA,0,Mega Cap
 ORCL,Oracle Corporation,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Mega Cap
+COST,Costco Wholesale Corp,CONSUMER DEFENSIVE,DISCOUNT STORES,Unknown,Unknown,USA,0,Mega Cap
+NFLX,Netflix Inc,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Mega Cap
+HD,The Home Depot Inc,CONSUMER CYCLICAL,HOME IMPROVEMENT RETAIL,Unknown,Unknown,USA,0,Mega Cap
+PG,Procter & Gamble Company,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Mega Cap
+JNJ,Johnson & Johnson,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Mega Cap
+BAC,Bank of America Corp,FINANCIAL SERVICES,BANKS - DIVERSIFIED,Unknown,Unknown,USA,0,Mega Cap
+CRM,Salesforce.com Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Mega Cap
+ABBV,AbbVie Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Mega Cap
+CVX,Chevron Corp,ENERGY,OIL & GAS INTEGRATED,Unknown,Unknown,USA,0,Mega Cap
+KO,The Coca-Cola Company,CONSUMER DEFENSIVE,BEVERAGES - NON-ALCOHOLIC,Unknown,Unknown,USA,0,Mega Cap
+TMUS,T-Mobile US Inc,COMMUNICATION SERVICES,TELECOM SERVICES,Unknown,Unknown,USA,0,Mega Cap
+WFC,Wells Fargo & Company,FINANCIAL SERVICES,BANKS - DIVERSIFIED,Unknown,Unknown,USA,0,Mega Cap
+MRK,Merck & Company Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Mega Cap
+CSCO,Cisco Systems Inc,TECHNOLOGY,COMMUNICATION EQUIPMENT,Unknown,Unknown,USA,0,Mega Cap
+ACN,Accenture plc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+IBM,International Business Machines,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Mega Cap
+TMO,Thermo Fisher Scientific Inc,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Mega Cap
+AXP,American Express Company,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Mega Cap
+MS,Morgan Stanley,FINANCIAL SERVICES,CAPITAL MARKETS,Unknown,Unknown,USA,0,Mega Cap
+ABT,Abbott Laboratories,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Mega Cap
+GE,GE Aerospace,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Mega Cap
+BX,Blackstone Group Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+LIN,Linde plc Ordinary Shares,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Mega Cap
+NOW,ServiceNow Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+PEP,PepsiCo Inc,CONSUMER DEFENSIVE,BEVERAGES - NON-ALCOHOLIC,Unknown,Unknown,USA,0,Large Cap
+MCD,McDonald’s Corporation,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Mega Cap
+DIS,Walt Disney Company,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Mega Cap
+ISRG,Intuitive Surgical Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Mega Cap
+PM,Philip Morris International Inc,CONSUMER DEFENSIVE,TOBACCO,Unknown,Unknown,USA,0,Mega Cap
+GS,Goldman Sachs Group Inc,FINANCIAL SERVICES,CAPITAL MARKETS,Unknown,Unknown,USA,0,Mega Cap
+AMD,Advanced Micro Devices Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mega Cap
+QCOM,Qualcomm Incorporated,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+ADBE,Adobe Systems Incorporated,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+PLTR,Palantir Technologies Inc.,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Mega Cap
+CAT,Caterpillar Inc,INDUSTRIALS,FARM & HEAVY CONSTRUCTION MACHINERY,Unknown,Unknown,USA,0,Mega Cap
+T,AT&T Inc,COMMUNICATION SERVICES,TELECOM SERVICES,Unknown,Unknown,USA,0,Large Cap
+RTX,Raytheon Technologies Corp,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Mega Cap
+TXN,Texas Instruments Incorporated,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+INTU,Intuit Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+BLK,BlackRock Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+VZ,Verizon Communications Inc,COMMUNICATION SERVICES,TELECOM SERVICES,Unknown,Unknown,USA,0,Large Cap
+SPGI,S&P Global Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+DHR,Danaher Corporation,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+BKNG,Booking Holdings Inc,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+KKR,KKR & Co LP,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+C,Citigroup Inc,FINANCIAL SERVICES,BANKS - DIVERSIFIED,Unknown,Unknown,USA,0,Mega Cap
+AMGN,Amgen Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Large Cap
+SCHW,Charles Schwab Corp,FINANCIAL SERVICES,CAPITAL MARKETS,Unknown,Unknown,USA,0,Large Cap
+BSX,Boston Scientific Corp,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+PFE,Pfizer Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Large Cap
+UNP,Union Pacific Corporation,INDUSTRIALS,RAILROADS,Unknown,Unknown,USA,0,Large Cap
+SYK,Stryker Corporation,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+AMAT,Applied Materials Inc,TECHNOLOGY,SEMICONDUCTOR EQUIPMENT & MATERIALS,Unknown,Unknown,USA,0,Mega Cap
+NEE,Nextera Energy Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+LOW,Lowe's Companies Inc,CONSUMER CYCLICAL,HOME IMPROVEMENT RETAIL,Unknown,Unknown,USA,0,Large Cap
+HON,Honeywell International Inc,INDUSTRIALS,CONGLOMERATES,Unknown,Unknown,USA,0,Large Cap
+ANET,Arista Networks,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+PGR,Progressive Corp,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+UBER,Uber Technologies Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+TJX,The TJX Companies Inc,CONSUMER CYCLICAL,APPAREL RETAIL,Unknown,Unknown,USA,0,Large Cap
+BA,The Boeing Company,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+DE,Deere & Company,INDUSTRIALS,FARM & HEAVY CONSTRUCTION MACHINERY,Unknown,Unknown,USA,0,Large Cap
+ETN,Eaton Corporation PLC,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+CMCSA,Comcast Corp,COMMUNICATION SERVICES,TELECOM SERVICES,Unknown,Unknown,USA,0,Large Cap
+COP,ConocoPhillips,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+SBUX,Starbucks Corporation,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Large Cap
+ADP,Automatic Data Processing Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+GILD,Gilead Sciences Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Large Cap
+PANW,Palo Alto Networks Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+BMY,Bristol-Myers Squibb Company,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Large Cap
+VRTX,Vertex Pharmaceuticals Inc,HEALTHCARE,BIOTECHNOLOGY,Unknown,Unknown,USA,0,Large Cap
+MDT,Medtronic PLC,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+NKE,Nike Inc,CONSUMER CYCLICAL,FOOTWEAR & ACCESSORIES,Unknown,Unknown,USA,0,Large Cap
+PLD,Prologis Inc,REAL ESTATE,REIT - INDUSTRIAL,Unknown,Unknown,USA,0,Large Cap
+LMT,Lockheed Martin Corporation,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+CB,Chubb Ltd,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+MMC,Marsh & McLennan Companies Inc,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+ADI,Analog Devices Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+LRCX,Lam Research Corp,TECHNOLOGY,SEMICONDUCTOR EQUIPMENT & MATERIALS,Unknown,Unknown,USA,0,Mega Cap
+MU,Micron Technology Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mega Cap
+GEV,GE Vernova LLC,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+KLAC,KLA-Tencor Corporation,TECHNOLOGY,SEMICONDUCTOR EQUIPMENT & MATERIALS,Unknown,Unknown,USA,0,Large Cap
+CRWD,Crowdstrike Holdings Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+UPS,United Parcel Service Inc,INDUSTRIALS,INTEGRATED FREIGHT & LOGISTICS,Unknown,Unknown,USA,0,Large Cap
+CEG,Constellation Energy Corp,UTILITIES,UTILITIES - INDEPENDENT POWER PRODUCERS,Unknown,Unknown,USA,0,Large Cap
+SO,Southern Company,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+ELV,Elevance Health Inc,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Large Cap
+ICE,Intercontinental Exchange Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+PH,Parker-Hannifin Corporation,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+MCO,Moodys Corporation,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+SHW,Sherwin-Williams Co,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+PYPL,PayPal Holdings Inc,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Large Cap
+WM,Waste Management Inc,INDUSTRIALS,WASTE MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+MO,Altria Group,CONSUMER DEFENSIVE,TOBACCO,Unknown,Unknown,USA,0,Large Cap
+EQIX,Equinix Inc,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+DUK,Duke Energy Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+AMT,American Tower Corp,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+APH,Amphenol Corporation,TECHNOLOGY,ELECTRONIC COMPONENTS,Unknown,Unknown,USA,0,Large Cap
+CME,CME Group Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+WELL,Welltower Inc,REAL ESTATE,REIT - HEALTHCARE FACILITIES,Unknown,Unknown,USA,0,Large Cap
+INTC,Intel Corporation,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+HCA,HCA Holdings Inc,HEALTHCARE,MEDICAL CARE FACILITIES,Unknown,Unknown,USA,0,Large Cap
+MMM,3M Company,INDUSTRIALS,CONGLOMERATES,Unknown,Unknown,USA,0,Large Cap
+TT,Trane Technologies plc,INDUSTRIALS,BUILDING PRODUCTS & EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+ABNB,Airbnb Inc,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+CDNS,Cadence Design Systems Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+SNPS,Synopsys Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+CTAS,Cintas Corporation,INDUSTRIALS,SPECIALTY BUSINESS SERVICES,Unknown,Unknown,USA,0,Large Cap
+MAR,Marriott International Inc,CONSUMER CYCLICAL,LODGING,Unknown,Unknown,USA,0,Large Cap
+CI,Cigna Corp,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Large Cap
+AON,Aon PLC,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+PNC,PNC Financial Services Group Inc,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+CMG,Chipotle Mexican Grill Inc,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Large Cap
+MSI,Motorola Solutions Inc,TECHNOLOGY,COMMUNICATION EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+COF,Capital One Financial Corporation,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Large Cap
+MDLZ,Mondelez International Inc,CONSUMER DEFENSIVE,CONFECTIONERS,Unknown,Unknown,USA,0,Large Cap
+FTNT,Fortinet Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+ZTS,Zoetis Inc,HEALTHCARE,DRUG MANUFACTURERS - SPECIALTY & GENERIC,Unknown,Unknown,USA,0,Large Cap
+ITW,Illinois Tool Works Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+TDG,Transdigm Group Incorporated,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+MCK,McKesson Corporation,HEALTHCARE,MEDICAL DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+AJG,Arthur J Gallagher & Co,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+ORLY,O’Reilly Automotive Inc,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Large Cap
+APD,Air Products and Chemicals Inc,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+USB,U.S. Bancorp,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+EMR,Emerson Electric Company,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+REGN,Regeneron Pharmaceuticals Inc,HEALTHCARE,BIOTECHNOLOGY,Unknown,Unknown,USA,0,Large Cap
+DELL,Dell Technologies Inc,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+BDX,Becton Dickinson and Company,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+RCL,Royal Caribbean Cruises Ltd,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+CVS,CVS Health Corp,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Large Cap
+ECL,Ecolab Inc,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+CL,Colgate-Palmolive Company,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+EOG,EOG Resources Inc,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+NOC,Northrop Grumman Corporation,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+GD,General Dynamics Corporation,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+RSG,Republic Services Inc,INDUSTRIALS,WASTE MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+WMB,Williams Companies Inc,ENERGY,OIL & GAS MIDSTREAM,Unknown,Unknown,USA,0,Large Cap
+ADSK,Autodesk Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+SPG,Simon Property Group Inc,REAL ESTATE,REIT - RETAIL,Unknown,Unknown,USA,0,Large Cap
+FDX,FedEx Corporation,INDUSTRIALS,INTEGRATED FREIGHT & LOGISTICS,Unknown,Unknown,USA,0,Large Cap
+CSX,CSX Corporation,INDUSTRIALS,RAILROADS,Unknown,Unknown,USA,0,Large Cap
+TGT,Target Corporation,CONSUMER DEFENSIVE,DISCOUNT STORES,Unknown,Unknown,USA,0,Large Cap
+TFC,Truist Financial Corp,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+HLT,Hilton Worldwide Holdings Inc,CONSUMER CYCLICAL,LODGING,Unknown,Unknown,USA,0,Large Cap
+ROP,"Roper Technologies, Inc.",TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+BK,The Bank of New York Mellon Corporation,FINANCIAL SERVICES,BANKS - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+KMI,Kinder Morgan Inc,ENERGY,OIL & GAS MIDSTREAM,Unknown,Unknown,USA,0,Large Cap
+MET,MetLife Inc,FINANCIAL SERVICES,INSURANCE - LIFE,Unknown,Unknown,USA,0,Large Cap
+AFL,Aflac Incorporated,FINANCIAL SERVICES,INSURANCE - LIFE,Unknown,Unknown,USA,0,Large Cap
+CARR,Carrier Global Corp,INDUSTRIALS,BUILDING PRODUCTS & EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+PCAR,PACCAR Inc,INDUSTRIALS,FARM & HEAVY CONSTRUCTION MACHINERY,Unknown,Unknown,USA,0,Large Cap
+NSC,Norfolk Southern Corporation,INDUSTRIALS,RAILROADS,Unknown,Unknown,USA,0,Large Cap
+SLB,Schlumberger NV,ENERGY,OIL & GAS EQUIPMENT & SERVICES,Unknown,Unknown,USA,0,Large Cap
+VST,Vistra Energy Corp,UTILITIES,UTILITIES - INDEPENDENT POWER PRODUCERS,Unknown,Unknown,USA,0,Large Cap
+OKE,ONEOK Inc,ENERGY,OIL & GAS MIDSTREAM,Unknown,Unknown,USA,0,Large Cap
+AZO,AutoZone Inc,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Large Cap
+CPRT,Copart Inc,INDUSTRIALS,SPECIALTY BUSINESS SERVICES,Unknown,Unknown,USA,0,Large Cap
+TRV,The Travelers Companies Inc,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+DLR,Digital Realty Trust Inc,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+PAYX,Paychex Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+NXPI,NXP Semiconductors NV,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+FCX,Freeport-McMoran Copper & Gold Inc,BASIC MATERIALS,COPPER,Unknown,Unknown,USA,0,Large Cap
+SRE,Sempra Energy,UTILITIES,UTILITIES - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+AEP,American Electric Power Co Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+PSA,Public Storage,REAL ESTATE,REIT - INDUSTRIAL,Unknown,Unknown,USA,0,Large Cap
+AMP,Ameriprise Financial Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+GWW,WW Grainger Inc,INDUSTRIALS,INDUSTRIAL DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+JCI,Johnson Controls International PLC,INDUSTRIALS,BUILDING PRODUCTS & EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+HWM,Howmet Aerospace Inc,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+ALL,The Allstate Corporation,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+LULU,Lululemon Athletica Inc.,CONSUMER CYCLICAL,APPAREL RETAIL,Unknown,Unknown,USA,0,Large Cap
+AXON,Axon Enterprise Inc.,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+ROST,Ross Stores Inc,CONSUMER CYCLICAL,APPAREL RETAIL,Unknown,Unknown,USA,0,Large Cap
+URI,United Rentals Inc,INDUSTRIALS,RENTAL & LEASING SERVICES,Unknown,Unknown,USA,0,Large Cap
+COR,Cencora Inc.,HEALTHCARE,MEDICAL DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+GM,General Motors Company,CONSUMER CYCLICAL,AUTO MANUFACTURERS,Unknown,Unknown,USA,0,Large Cap
+NEM,Newmont Goldcorp Corp,BASIC MATERIALS,GOLD,Unknown,Unknown,USA,0,Large Cap
+CHTR,Charter Communications Inc,COMMUNICATION SERVICES,TELECOM SERVICES,Unknown,Unknown,USA,0,Large Cap
+CMI,Cummins Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+PSX,Phillips 66,ENERGY,OIL & GAS REFINING & MARKETING,Unknown,Unknown,USA,0,Large Cap
+FANG,Diamondback Energy Inc,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+O,Realty Income Corporation,REAL ESTATE,REIT - RETAIL,Unknown,Unknown,USA,0,Large Cap
+MNST,Monster Beverage Corp,CONSUMER DEFENSIVE,BEVERAGES - NON-ALCOHOLIC,Unknown,Unknown,USA,0,Large Cap
+NDAQ,Nasdaq Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+MPC,Marathon Petroleum Corp,ENERGY,OIL & GAS REFINING & MARKETING,Unknown,Unknown,USA,0,Large Cap
+MSCI,MSCI Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+D,Dominion Energy Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+AIG,American International Group Inc,FINANCIAL SERVICES,INSURANCE - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+FICO,Fair Isaac Corporation,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+BKR,Baker Hughes Co,ENERGY,OIL & GAS EQUIPMENT & SERVICES,Unknown,Unknown,USA,0,Large Cap
+DHI,DR Horton Inc,CONSUMER CYCLICAL,RESIDENTIAL CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+CTVA,Corteva Inc,BASIC MATERIALS,AGRICULTURAL INPUTS,Unknown,Unknown,USA,0,Large Cap
+PWR,Quanta Services Inc,INDUSTRIALS,ENGINEERING & CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+KR,Kroger Company,CONSUMER DEFENSIVE,GROCERY STORES,Unknown,Unknown,USA,0,Large Cap
+GLW,Corning Incorporated,TECHNOLOGY,ELECTRONIC COMPONENTS,Unknown,Unknown,USA,0,Large Cap
+CBRE,CBRE Group Inc Class A,REAL ESTATE,REAL ESTATE SERVICES,Unknown,Unknown,USA,0,Large Cap
+TEL,TE Connectivity Ltd,TECHNOLOGY,ELECTRONIC COMPONENTS,Unknown,Unknown,USA,0,Large Cap
+FIS,Fidelity National Information Services Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+OXY,Occidental Petroleum Corporation,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+KDP,Keurig Dr Pepper Inc,CONSUMER DEFENSIVE,BEVERAGES - NON-ALCOHOLIC,Unknown,Unknown,USA,0,Large Cap
+DAL,Delta Air Lines Inc,INDUSTRIALS,AIRLINES,Unknown,Unknown,USA,0,Large Cap
+A,Agilent Technologies Inc,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+EW,Edwards Lifesciences Corp,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+KMB,Kimberly-Clark Corporation,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+PRU,Prudential Financial Inc,FINANCIAL SERVICES,INSURANCE - LIFE,Unknown,Unknown,USA,0,Large Cap
+TRGP,Targa Resources Inc,ENERGY,OIL & GAS MIDSTREAM,Unknown,Unknown,USA,0,Large Cap
+AME,Ametek Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+VLO,Valero Energy Corporation,ENERGY,OIL & GAS REFINING & MARKETING,Unknown,Unknown,USA,0,Large Cap
+FAST,Fastenal Company,INDUSTRIALS,INDUSTRIAL DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+IT,Gartner Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+PEG,Public Service Enterprise Group Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+GRMN,Garmin Ltd,TECHNOLOGY,SCIENTIFIC & TECHNICAL INSTRUMENTS,Unknown,Unknown,USA,0,Large Cap
+CTSH,Cognizant Technology Solutions Corp Class A,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+KVUE,Kenvue Inc.,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+VRSK,Verisk Analytics Inc,INDUSTRIALS,CONSULTING SERVICES,Unknown,Unknown,USA,0,Large Cap
+GEHC,GE HealthCare Technologies Inc.,HEALTHCARE,HEALTH INFORMATION SERVICES,Unknown,Unknown,USA,0,Large Cap
+LHX,L3Harris Technologies Inc,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+EXC,Exelon Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+F,Ford Motor Company,CONSUMER CYCLICAL,AUTO MANUFACTURERS,Unknown,Unknown,USA,0,Large Cap
+ODFL,Old Dominion Freight Line Inc,INDUSTRIALS,TRUCKING,Unknown,Unknown,USA,0,Large Cap
+CCI,Crown Castle,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+XEL,Xcel Energy Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+OTIS,Otis Worldwide Corp,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+IR,Ingersoll Rand Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+CCL,Carnival Corporation,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+IQV,IQVIA Holdings Inc,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+YUM,Yum! Brands Inc,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Large Cap
+VMC,Vulcan Materials Company,BASIC MATERIALS,BUILDING MATERIALS,Unknown,Unknown,USA,0,Large Cap
+KHC,Kraft Heinz Co,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+WAB,Westinghouse Air Brake Technologies Corp,INDUSTRIALS,RAILROADS,Unknown,Unknown,USA,0,Large Cap
+SYY,Sysco Corporation,CONSUMER DEFENSIVE,FOOD DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+ACGL,Arch Capital Group Ltd,FINANCIAL SERVICES,INSURANCE - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+HUM,Humana Inc,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Large Cap
+UAL,United Airlines Holdings Inc,INDUSTRIALS,AIRLINES,Unknown,Unknown,USA,0,Large Cap
+ETR,Entergy Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+RMD,ResMed Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+LEN,Lennar Corporation,CONSUMER CYCLICAL,RESIDENTIAL CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+IDXX,IDEXX Laboratories Inc,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+RJF,Raymond James Financial Inc.,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+PCG,PG&E Corp,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+EFX,Equifax Inc,INDUSTRIALS,CONSULTING SERVICES,Unknown,Unknown,USA,0,Large Cap
+EXR,Extra Space Storage Inc,REAL ESTATE,REIT - INDUSTRIAL,Unknown,Unknown,USA,0,Large Cap
+DXCM,DexCom Inc,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+DECK,Deckers Outdoor Corporation,CONSUMER CYCLICAL,FOOTWEAR & ACCESSORIES,Unknown,Unknown,USA,0,Large Cap
+MTB,M&T Bank Corporation,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+LYV,Live Nation Entertainment Inc,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+STZ,Constellation Brands Inc Class A,CONSUMER DEFENSIVE,BEVERAGES - BREWERS,Unknown,Unknown,USA,0,Large Cap
+MLM,Martin Marietta Materials Inc,BASIC MATERIALS,BUILDING MATERIALS,Unknown,Unknown,USA,0,Large Cap
+LVS,Las Vegas Sands Corp,CONSUMER CYCLICAL,RESORTS & CASINOS,Unknown,Unknown,USA,0,Large Cap
+WTW,Willis Towers Watson PLC,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+GIS,General Mills Inc,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+TTWO,Take-Two Interactive Software Inc,COMMUNICATION SERVICES,ELECTRONIC GAMING & MULTIMEDIA,Unknown,Unknown,USA,0,Large Cap
+ED,Consolidated Edison Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+EBAY,eBay Inc,CONSUMER CYCLICAL,INTERNET RETAIL,Unknown,Unknown,USA,0,Large Cap
+HIG,Hartford Financial Services Group,FINANCIAL SERVICES,INSURANCE - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+CNC,Centene Corp,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Large Cap
+EA,Electronic Arts Inc,COMMUNICATION SERVICES,ELECTRONIC GAMING & MULTIMEDIA,Unknown,Unknown,USA,0,Large Cap
+DD,Dupont De Nemours Inc,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+AVB,AvalonBay Communities Inc,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+ROK,Rockwell Automation Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+CSGP,CoStar Group Inc,REAL ESTATE,REAL ESTATE SERVICES,Unknown,Unknown,USA,0,Large Cap
+WEC,WEC Energy Group Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+VICI,VICI Properties Inc,REAL ESTATE,REIT - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+MPWR,Monolithic Power Systems Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+KEYS,Keysight Technologies Inc,TECHNOLOGY,SCIENTIFIC & TECHNICAL INSTRUMENTS,Unknown,Unknown,USA,0,Large Cap
+EQT,EQT Corporation,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+HPQ,HP Inc,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+HSY,Hershey Co,CONSUMER DEFENSIVE,CONFECTIONERS,Unknown,Unknown,USA,0,Large Cap
+NUE,Nucor Corp,BASIC MATERIALS,STEEL,Unknown,Unknown,USA,0,Large Cap
+XYL,Xylem Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+GDDY,Godaddy Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+EL,Estee Lauder Companies Inc,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+BRO,Brown & Brown Inc,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+CAH,Cardinal Health Inc,HEALTHCARE,MEDICAL DISTRIBUTION,Unknown,Unknown,USA,0,Large Cap
+IRM,Iron Mountain Incorporated,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+FITB,Fifth Third Bancorp,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+STT,State Street Corp,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+MCHP,Microchip Technology Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+TSCO,Tractor Supply Company,CONSUMER CYCLICAL,SPECIALTY RETAIL,Unknown,Unknown,USA,0,Large Cap
+MTD,Mettler-Toledo International Inc,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+GPN,Global Payments Inc,INDUSTRIALS,SPECIALTY BUSINESS SERVICES,Unknown,Unknown,USA,0,Large Cap
+FTV,Fortive Corp,TECHNOLOGY,SCIENTIFIC & TECHNICAL INSTRUMENTS,Unknown,Unknown,USA,0,Large Cap
+K,Kellanova,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+DOV,Dover Corporation,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+HPE,Hewlett Packard Enterprise Co,TECHNOLOGY,COMMUNICATION EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+BR,Broadridge Financial Solutions Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+EQR,Equity Residential,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+SW,Smurfit WestRock plc,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+DOW,Dow Inc,BASIC MATERIALS,CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+SYF,Synchrony Financial,FINANCIAL SERVICES,CREDIT SERVICES,Unknown,Unknown,USA,0,Large Cap
+PPG,PPG Industries Inc,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+CDW,CDW Corp,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+CPAY,Corpay Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+WBD,Warner Bros Discovery Inc,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+TROW,T. Rowe Price Group Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+CHD,Church & Dwight Company Inc,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+TYL,Tyler Technologies Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+VLTO,Veralto Corporation,INDUSTRIALS,POLLUTION & TREATMENT CONTROLS,Unknown,Unknown,USA,0,Large Cap
+VTR,Ventas Inc,REAL ESTATE,REIT - HEALTHCARE FACILITIES,Unknown,Unknown,USA,0,Large Cap
+AEE,Ameren Corp,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+HBAN,Huntington Bancshares Incorporated,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+NVR,NVR Inc,CONSUMER CYCLICAL,RESIDENTIAL CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+DTE,DTE Energy Company,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+NTAP,NetApp Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+PPL,PPL Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+WST,West Pharmaceutical Services Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+WAT,Waters Corporation,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+LYB,LyondellBasell Industries NV,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+ADM,Archer-Daniels-Midland Company,CONSUMER DEFENSIVE,FARM PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+AWK,American Water Works,UTILITIES,UTILITIES - REGULATED WATER,Unknown,Unknown,USA,0,Large Cap
+ROL,Rollins Inc,CONSUMER CYCLICAL,PERSONAL SERVICES,Unknown,Unknown,USA,0,Large Cap
+TDY,Teledyne Technologies Incorporated,TECHNOLOGY,SCIENTIFIC & TECHNICAL INSTRUMENTS,Unknown,Unknown,USA,0,Large Cap
+PHM,PulteGroup Inc,CONSUMER CYCLICAL,RESIDENTIAL CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+PTC,PTC Inc,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+FE,FirstEnergy Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+DRI,Darden Restaurants Inc,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Large Cap
+HAL,Halliburton Company,ENERGY,OIL & GAS EQUIPMENT & SERVICES,Unknown,Unknown,USA,0,Large Cap
+FOX,Fox Corp Class B,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+FOXA,Fox Corp Class A,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+HUBB,Hubbell Inc,INDUSTRIALS,ELECTRICAL EQUIPMENT & PARTS,Unknown,Unknown,USA,0,Large Cap
+WDC,Western Digital Corporation,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+DVN,Devon Energy Corporation,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+RF,Regions Financial Corporation,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+WRB,W. R. Berkley Corp,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+ON,ON Semiconductor Corporation,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Large Cap
+IFF,International Flavors & Fragrances Inc,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+WY,Weyerhaeuser Company,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+ATO,Atmos Energy Corporation,UTILITIES,UTILITIES - REGULATED GAS,Unknown,Unknown,USA,0,Large Cap
+NTRS,Northern Trust Corporation,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+EXPE,Expedia Group Inc.,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+ZBH,Zimmer Biomet Holdings Inc,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+STE,STERIS plc,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+CINF,Cincinnati Financial Corporation,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+CBOE,Cboe Global Markets Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+SBAC,SBA Communications Corp,REAL ESTATE,REIT - SPECIALTY,Unknown,Unknown,USA,0,Large Cap
+CNP,CenterPoint Energy Inc,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+ES,Eversource Energy,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+ERIE,Erie Indemnity Company,FINANCIAL SERVICES,INSURANCE BROKERS,Unknown,Unknown,USA,0,Large Cap
+BIIB,Biogen Inc,HEALTHCARE,DRUG MANUFACTURERS - GENERAL,Unknown,Unknown,USA,0,Large Cap
+CFG,"Citizens Financial Group, Inc.",FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+EIX,Edison International,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+LH,Laboratory Corporation of America Holdings,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+STX,Seagate Technology PLC,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+NRG,NRG Energy Inc.,UTILITIES,UTILITIES - INDEPENDENT POWER PRODUCERS,Unknown,Unknown,USA,0,Large Cap
+MKC,McCormick & Company Incorporated,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+VRSN,VeriSign Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+CTRA,Coterra Energy Inc,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Large Cap
+ZBRA,Zebra Technologies Corporation,TECHNOLOGY,COMMUNICATION EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+TSN,Tyson Foods Inc,CONSUMER DEFENSIVE,FARM PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+KEY,KeyCorp,FINANCIAL SERVICES,BANKS - REGIONAL,Unknown,Unknown,USA,0,Large Cap
+STLD,Steel Dynamics Inc,BASIC MATERIALS,STEEL,Unknown,Unknown,USA,0,Large Cap
+CMS,CMS Energy Corporation,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+CLX,The Clorox Company,CONSUMER DEFENSIVE,HOUSEHOLD & PERSONAL PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+PODD,Insulet Corporation,HEALTHCARE,MEDICAL DEVICES,Unknown,Unknown,USA,0,Large Cap
+IP,International Paper,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+COO,"The Cooper Companies, Inc",HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+BLDR,Builders FirstSource Inc,INDUSTRIALS,BUILDING PRODUCTS & EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+ULTA,Ulta Beauty Inc,CONSUMER CYCLICAL,SPECIALTY RETAIL,Unknown,Unknown,USA,0,Large Cap
+PKG,Packaging Corp of America,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+INVH,Invitation Homes Inc,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+ESS,Essex Property Trust Inc,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+LDOS,Leidos Holdings Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+PFG,Principal Financial Group Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+TER,Teradyne Inc,TECHNOLOGY,SEMICONDUCTOR EQUIPMENT & MATERIALS,Unknown,Unknown,USA,0,Large Cap
+SNA,Snap-On Inc,INDUSTRIALS,TOOLS & ACCESSORIES,Unknown,Unknown,USA,0,Large Cap
+L,Loews Corp,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+TRMB,Trimble Inc,TECHNOLOGY,SCIENTIFIC & TECHNICAL INSTRUMENTS,Unknown,Unknown,USA,0,Large Cap
+LUV,Southwest Airlines Company,INDUSTRIALS,AIRLINES,Unknown,Unknown,USA,0,Large Cap
+BBY,Best Buy Co. Inc,CONSUMER CYCLICAL,SPECIALTY RETAIL,Unknown,Unknown,USA,0,Large Cap
+MAA,Mid-America Apartment Communities Inc,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+FDS,FactSet Research Systems Inc,FINANCIAL SERVICES,FINANCIAL DATA & STOCK EXCHANGES,Unknown,Unknown,USA,0,Large Cap
+DGX,Quest Diagnostics Incorporated,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+FSLR,First Solar Inc,TECHNOLOGY,SOLAR,Unknown,Unknown,USA,0,Large Cap
+JBL,Jabil Circuit Inc,TECHNOLOGY,ELECTRONIC COMPONENTS,Unknown,Unknown,USA,0,Large Cap
+MOH,Molina Healthcare Inc,HEALTHCARE,HEALTHCARE PLANS,Unknown,Unknown,USA,0,Mid Cap
+NI,NiSource Inc,UTILITIES,UTILITIES - REGULATED GAS,Unknown,Unknown,USA,0,Large Cap
+J,Jacobs Solutions Inc.,INDUSTRIALS,ENGINEERING & CONSTRUCTION,Unknown,Unknown,USA,0,Large Cap
+FFIV,F5 Networks Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+JBHT,JB Hunt Transport Services Inc,INDUSTRIALS,INTEGRATED FREIGHT & LOGISTICS,Unknown,Unknown,USA,0,Large Cap
+GEN,Gen Digital Inc.,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+PNR,Pentair PLC,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+MAS,Masco Corporation,INDUSTRIALS,BUILDING PRODUCTS & EQUIPMENT,Unknown,Unknown,USA,0,Large Cap
+OMC,Omnicom Group Inc,COMMUNICATION SERVICES,ADVERTISING AGENCIES,Unknown,Unknown,USA,0,Large Cap
+TPR,Tapestry Inc,CONSUMER CYCLICAL,LUXURY GOODS,Unknown,Unknown,USA,0,Large Cap
+IEX,IDEX Corporation,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+ARE,Alexandria Real Estate Equities Inc,REAL ESTATE,REIT - OFFICE,Unknown,Unknown,USA,0,Mid Cap
+SMCI,Super Micro Computer Inc,TECHNOLOGY,COMPUTER HARDWARE,Unknown,Unknown,USA,0,Large Cap
+NWS,News Corp B,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+BAX,Baxter International Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+NWSA,News Corp A,COMMUNICATION SERVICES,ENTERTAINMENT,Unknown,Unknown,USA,0,Large Cap
+BALL,Ball Corporation,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+HRL,Hormel Foods Corporation,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+ALGN,Align Technology Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+HOLX,Hologic Inc,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+GPC,Genuine Parts Co,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Large Cap
+CF,CF Industries Holdings Inc,BASIC MATERIALS,AGRICULTURAL INPUTS,Unknown,Unknown,USA,0,Large Cap
+EXPD,"Expeditors International of Washington, Inc.",INDUSTRIALS,INTEGRATED FREIGHT & LOGISTICS,Unknown,Unknown,USA,0,Large Cap
+DLTR,Dollar Tree Inc,CONSUMER DEFENSIVE,DISCOUNT STORES,Unknown,Unknown,USA,0,Large Cap
+UDR,UDR Inc,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+DG,Dollar General Corporation,CONSUMER DEFENSIVE,DISCOUNT STORES,Unknown,Unknown,USA,0,Large Cap
+DPZ,Domino's Pizza Inc Common Stock,CONSUMER CYCLICAL,RESTAURANTS,Unknown,Unknown,USA,0,Large Cap
+RL,Ralph Lauren Corp Class A,CONSUMER CYCLICAL,APPAREL MANUFACTURING,Unknown,Unknown,USA,0,Large Cap
+RVTY,Revvity Inc.,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Large Cap
+MRNA,Moderna Inc,HEALTHCARE,BIOTECHNOLOGY,Unknown,Unknown,USA,0,Large Cap
+KIM,Kimco Realty Corporation,REAL ESTATE,REIT - RETAIL,Unknown,Unknown,USA,0,Large Cap
+LNT,Alliant Energy Corp,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+AKAM,Akamai Technologies Inc,TECHNOLOGY,SOFTWARE - INFRASTRUCTURE,Unknown,Unknown,USA,0,Large Cap
+EG,Everest Group Ltd,FINANCIAL SERVICES,INSURANCE - REINSURANCE,Unknown,Unknown,USA,0,Large Cap
+AVY,Avery Dennison Corp,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+APTV,Aptiv PLC,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Large Cap
+EVRG,"Evergy, Inc.",UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+DVA,DaVita HealthCare Partners Inc,HEALTHCARE,MEDICAL CARE FACILITIES,Unknown,Unknown,USA,0,Mid Cap
+DOC,Healthpeak Properties Inc,REAL ESTATE,REIT - HEALTHCARE FACILITIES,Unknown,Unknown,USA,0,Large Cap
+EPAM,EPAM Systems Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+INCY,Incyte Corporation,HEALTHCARE,BIOTECHNOLOGY,Unknown,Unknown,USA,0,Large Cap
+SWKS,Skyworks Solutions Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mid Cap
+TXT,Textron Inc,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+AMCR,Amcor PLC,CONSUMER CYCLICAL,PACKAGING & CONTAINERS,Unknown,Unknown,USA,0,Large Cap
+SWK,Stanley Black & Decker Inc,INDUSTRIALS,TOOLS & ACCESSORIES,Unknown,Unknown,USA,0,Large Cap
+VTRS,Viatris Inc,HEALTHCARE,DRUG MANUFACTURERS - SPECIALTY & GENERIC,Unknown,Unknown,USA,0,Large Cap
+KMX,CarMax Inc,CONSUMER CYCLICAL,AUTO & TRUCK DEALERSHIPS,Unknown,Unknown,USA,0,Mid Cap
+REG,Regency Centers Corporation,REAL ESTATE,REIT - RETAIL,Unknown,Unknown,USA,0,Large Cap
+POOL,Pool Corporation,INDUSTRIALS,INDUSTRIAL DISTRIBUTION,Unknown,Unknown,USA,0,Mid Cap
+BXP,Boston Properties Inc,REAL ESTATE,REIT - OFFICE,Unknown,Unknown,USA,0,Large Cap
+SOLV,Solventum Corp.,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Large Cap
+JKHY,Jack Henry & Associates Inc,TECHNOLOGY,INFORMATION TECHNOLOGY SERVICES,Unknown,Unknown,USA,0,Large Cap
+NDSN,Nordson Corporation,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Large Cap
+NCLH,Norwegian Cruise Line Holdings Ltd,CONSUMER CYCLICAL,TRAVEL SERVICES,Unknown,Unknown,USA,0,Large Cap
+UHS,Universal Health Services Inc,HEALTHCARE,MEDICAL CARE FACILITIES,Unknown,Unknown,USA,0,Large Cap
+CAG,ConAgra Foods Inc,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Mid Cap
+CPT,Camden Property Trust,REAL ESTATE,REIT - RESIDENTIAL,Unknown,Unknown,USA,0,Large Cap
+PAYC,"Paycom Software, Inc.",TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Mid Cap
+HST,Host Hotels & Resorts Inc,REAL ESTATE,REIT - HOTEL & MOTEL,Unknown,Unknown,USA,0,Large Cap
+CHRW,CH Robinson Worldwide Inc,INDUSTRIALS,INTEGRATED FREIGHT & LOGISTICS,Unknown,Unknown,USA,0,Large Cap
+TECH,Bio-Techne Corp,HEALTHCARE,BIOTECHNOLOGY,Unknown,Unknown,USA,0,Mid Cap
+BEN,Franklin Resources Inc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+CPB,Campbell’s Co,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Mid Cap
+EMN,Eastman Chemical Company,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Mid Cap
+ALLE,Allegion PLC,INDUSTRIALS,SECURITY & PROTECTION SERVICES,Unknown,Unknown,USA,0,Large Cap
+SJM,The J. M. Smucker Company,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Large Cap
+TAP,Molson Coors Brewing Co Class B,CONSUMER DEFENSIVE,BEVERAGES - BREWERS,Unknown,Unknown,USA,0,Mid Cap
+DAY,Dayforce Inc.,TECHNOLOGY,SOFTWARE - APPLICATION,Unknown,Unknown,USA,0,Large Cap
+AIZ,Assurant Inc,FINANCIAL SERVICES,INSURANCE - PROPERTY & CASUALTY,Unknown,Unknown,USA,0,Large Cap
+BG,Bunge Limited,CONSUMER DEFENSIVE,FARM PRODUCTS,Unknown,Unknown,USA,0,Large Cap
+MGM,MGM Resorts International,CONSUMER CYCLICAL,RESORTS & CASINOS,Unknown,Unknown,USA,0,Mid Cap
+GL,Globe Life Inc,FINANCIAL SERVICES,INSURANCE - LIFE,Unknown,Unknown,USA,0,Large Cap
+HSIC,Henry Schein Inc,HEALTHCARE,MEDICAL DISTRIBUTION,Unknown,Unknown,USA,0,Mid Cap
+ALB,Albemarle Corp,BASIC MATERIALS,SPECIALTY CHEMICALS,Unknown,Unknown,USA,0,Large Cap
+PNW,Pinnacle West Capital Corp,UTILITIES,UTILITIES - REGULATED ELECTRIC,Unknown,Unknown,USA,0,Large Cap
+AOS,Smith AO Corporation,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Mid Cap
+LKQ,LKQ Corporation,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Mid Cap
+WYNN,Wynn Resorts Limited,CONSUMER CYCLICAL,RESORTS & CASINOS,Unknown,Unknown,USA,0,Large Cap
+FRT,Federal Realty Investment Trust,REAL ESTATE,REIT - RETAIL,Unknown,Unknown,USA,0,Mid Cap
+MTCH,Match Group Inc,COMMUNICATION SERVICES,INTERNET CONTENT & INFORMATION,Unknown,Unknown,USA,0,Mid Cap
+GNRC,Generac Holdings Inc,INDUSTRIALS,SPECIALTY INDUSTRIAL MACHINERY,Unknown,Unknown,USA,0,Mid Cap
+MOS,The Mosaic Company,BASIC MATERIALS,AGRICULTURAL INPUTS,Unknown,Unknown,USA,0,Mid Cap
+IVZ,Invesco Plc,FINANCIAL SERVICES,ASSET MANAGEMENT,Unknown,Unknown,USA,0,Large Cap
+LW,Lamb Weston Holdings Inc,CONSUMER DEFENSIVE,PACKAGED FOODS,Unknown,Unknown,USA,0,Mid Cap
+CRL,Charles River Laboratories,HEALTHCARE,DIAGNOSTICS & RESEARCH,Unknown,Unknown,USA,0,Mid Cap
+ENPH,Enphase Energy Inc,TECHNOLOGY,SOLAR,Unknown,Unknown,USA,0,Mid Cap
+TFX,Teleflex Incorporated,HEALTHCARE,MEDICAL INSTRUMENTS & SUPPLIES,Unknown,Unknown,USA,0,Mid Cap
+MKTX,MarketAxess Holdings Inc,FINANCIAL SERVICES,CAPITAL MARKETS,Unknown,Unknown,USA,0,Mid Cap
+APA,APA Corporation,ENERGY,OIL & GAS E&P,Unknown,Unknown,USA,0,Mid Cap
+HAS,Hasbro Inc,CONSUMER CYCLICAL,LEISURE,Unknown,Unknown,USA,0,Large Cap
+AES,The AES Corporation,UTILITIES,UTILITIES - DIVERSIFIED,Unknown,Unknown,USA,0,Large Cap
+CE,Celanese Corporation,BASIC MATERIALS,CHEMICALS,Unknown,Unknown,USA,0,Mid Cap
+QRVO,Qorvo Inc,TECHNOLOGY,SEMICONDUCTORS,Unknown,Unknown,USA,0,Mid Cap
+MHK,Mohawk Industries Inc,CONSUMER CYCLICAL,"FURNISHINGS, FIXTURES & APPLIANCES",Unknown,Unknown,USA,0,Mid Cap
+HII,Huntington Ingalls Industries Inc,INDUSTRIALS,AEROSPACE & DEFENSE,Unknown,Unknown,USA,0,Large Cap
+CZR,Caesars Entertainment Corporation,CONSUMER CYCLICAL,RESORTS & CASINOS,Unknown,Unknown,USA,0,Mid Cap
+BWA,BorgWarner Inc,CONSUMER CYCLICAL,AUTO PARTS,Unknown,Unknown,USA,0,Large Cap
+FMC,FMC Corporation,BASIC MATERIALS,AGRICULTURAL INPUTS,Unknown,Unknown,USA,0,Small Cap
+AMTM,Amentum Holdings Inc.,INDUSTRIALS,SPECIALTY BUSINESS SERVICES,Unknown,Unknown,USA,0,Mid Cap
