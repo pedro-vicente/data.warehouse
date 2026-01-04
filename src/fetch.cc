@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #include <vector>
 #include <string>
 #include <thread>
@@ -66,9 +67,9 @@ void usage(const char* program_name)
   std::cout << "  -h, --help        Display this help message" << std::endl;
   std::cout << std::endl;
   std::cout << "Output files:" << std::endl;
-  std::cout << "  stock_data.csv  Daily OHLCV data" << std::endl;
-  std::cout << "  companies.csv   Company information" << std::endl;
-  std::cout << "  financials.csv  Financial statements" << std::endl;
+  std::cout << "  stock_data.csv      Daily OHLCV data" << std::endl;
+  std::cout << "  companies.csv       Company information" << std::endl;
+  std::cout << "  financials.csv      Financial statements" << std::endl;
   std::cout << std::endl;
   std::cout << "Examples:" << std::endl;
   std::cout << "  " << program_name << " --test              # test with 1 company" << std::endl;
@@ -504,6 +505,18 @@ int read_tickers_from_csv(const std::string& filename, std::vector<std::string>&
 
   // sort by market cap descending
   std::sort(entries.begin(), entries.end(), compare_by_market_cap);
+
+  // save sorted list to file
+  std::ofstream ofs("tickers.csv");
+  if (ofs.is_open())
+  {
+    ofs << "Rank,Symbol,MarketCap" << std::endl;
+    for (size_t idx = 0; idx < entries.size(); ++idx)
+    {
+      ofs << (idx + 1) << "," << entries[idx].symbol << "," << std::fixed << std::setprecision(0) << entries[idx].market_cap << std::endl;
+    }
+    ofs.close();
+  }
 
   // extract tickers
   tickers.clear();

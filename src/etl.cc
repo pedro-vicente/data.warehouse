@@ -29,8 +29,9 @@ void usage(const char* program_name)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t
-//ETL for US Companies Data Warehouse using Kimball star schema
+// etl_t
+// ETL for US Companies Data Warehouse using Kimball star schema
+// implements extract, transform, load operations for financial data
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class etl_t
@@ -58,7 +59,7 @@ private:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//main
+// main
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char* argv[])
@@ -70,7 +71,7 @@ int main(int argc, char* argv[])
   bool delete_data = false;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //parse command line
+  // parse command line
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   for (int idx = 1; idx < argc; idx++)
@@ -104,7 +105,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //validate required parameters
+  // validate required parameters
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (server.empty())
@@ -120,7 +121,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //display configuration
+  // display configuration
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::cout << "ETL Configuration:" << std::endl;
@@ -130,7 +131,7 @@ int main(int argc, char* argv[])
   std::cout << std::endl;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //connect
+  // connect
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   etl_t etl;
@@ -141,7 +142,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //handle --delete
+  // handle --delete
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (delete_data)
@@ -156,7 +157,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //create schema
+  // create schema
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (etl.create_schema() < 0)
@@ -166,7 +167,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //load date dimension
+  // load date dimension
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (etl.load_date_dimension(2020, 2026) < 0)
@@ -176,7 +177,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //load from CSV files
+  // load from CSV files
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string companies_file = "companies.csv";
@@ -202,7 +203,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //run analytics
+  // run analytics
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (etl.run_analytics() < 0)
@@ -216,7 +217,7 @@ int main(int argc, char* argv[])
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::etl_t
+// etl_t::etl_t
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 etl_t::etl_t()
@@ -224,7 +225,7 @@ etl_t::etl_t()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::~etl_t
+// etl_t::~etl_t
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 etl_t::~etl_t()
@@ -232,7 +233,7 @@ etl_t::~etl_t()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::connect
+// etl_t::connect
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::connect(const std::string& server, const std::string& database,
@@ -243,7 +244,7 @@ int etl_t::connect(const std::string& server, const std::string& database,
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::disconnect
+// etl_t::disconnect
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::disconnect()
@@ -252,8 +253,18 @@ int etl_t::disconnect()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::delete_data
-//deletes all data from all tables (fact tables first due to foreign keys)
+// etl_t::delete_data
+// deletes all data from all tables (fact tables first due to foreign keys)
+// 
+// SQL operations:
+//   DELETE FROM FactFinancials  - clear financial statement facts
+//   DELETE FROM FactValuation   - clear valuation ratio facts
+//   DELETE FROM FactDailyStock  - clear daily stock price facts
+//   DELETE FROM DimCompany      - clear company dimension
+//   DELETE FROM DimSector       - clear sector dimension
+//   DELETE FROM DimDate         - clear date dimension
+//
+// note: fact tables must be deleted before dimensions due to foreign key constraints
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::delete_data()
@@ -292,7 +303,8 @@ int etl_t::delete_data()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::escape_sql
+// etl_t::escape_sql
+// escapes single quotes in strings for SQL injection prevention
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string etl_t::escape_sql(const std::string& str)
@@ -313,7 +325,21 @@ std::string etl_t::escape_sql(const std::string& str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::get_company_key
+// etl_t::get_company_key
+// retrieves surrogate key for a ticker symbol from DimCompany
+//
+// SQL query:
+//   SELECT CompanyKey FROM DimCompany WHERE Ticker='AAPL' AND IsCurrent=1
+//
+// parameters:
+//   ticker - stock ticker symbol (e.g., 'AAPL', 'MSFT')
+//
+// returns:
+//   surrogate key (CompanyKey) if found, -1 if not found
+//
+// notes:
+//   - only returns current records (IsCurrent=1) for SCD Type 2 support
+//   - surrogate keys are used instead of natural keys for fact table joins
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::get_company_key(const std::string& ticker)
@@ -336,8 +362,18 @@ int etl_t::get_company_key(const std::string& ticker)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::get_date_key
-//converts date string YYYY-MM-DD to date key YYYYMMDD
+// etl_t::get_date_key
+// converts date string YYYY-MM-DD to date key YYYYMMDD
+//
+// parameters:
+//   date_str - date in ISO format (e.g., '2025-12-30')
+//
+// returns:
+//   integer date key (e.g., 20251230) for DimDate lookup, -1 if parse fails
+//
+// notes:
+//   - date keys are integers for efficient joins and partitioning
+//   - format: YYYYMMDD allows natural sorting and range queries
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::get_date_key(const std::string& date_str)
@@ -354,13 +390,41 @@ int etl_t::get_date_key(const std::string& date_str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::create_schema
+// etl_t::create_schema
+// creates all dimension and fact tables for the Kimball star schema
+//
+// dimension tables:
+//   DimDate    - calendar dimension with fiscal year support (federal Oct-Sep)
+//   DimCompany - company dimension with SCD Type 2 for historical tracking
+//   DimSector  - industry sector classification
+//
+// fact tables:
+//   FactDailyStock - daily stock prices with foreign keys to DimDate and DimCompany
+//   FactFinancials - quarterly financial statements with revenue, margins, ratios
+//   FactValuation  - valuation ratios (P/E, P/S, EV/EBITDA, etc.)
+//
+// notes:
+//   - uses IF NOT EXISTS to allow idempotent schema creation
+//   - foreign keys enforce referential integrity between facts and dimensions
+//   - surrogate keys (IDENTITY) used for all dimension primary keys
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::create_schema()
 {
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //DimDate
+  // DimDate
+  // calendar dimension table with fiscal year support
+  //
+  // SQL:
+  //   CREATE TABLE DimDate (
+  //     DateKey INT PRIMARY KEY,           -- integer key YYYYMMDD for efficient joins
+  //     FullDate DATE,                     -- actual date value
+  //     Year INT, Quarter INT, Month INT,  -- calendar attributes
+  //     MonthName VARCHAR(15),             -- 'January', 'February', etc.
+  //     Week INT, DayOfWeek VARCHAR(10),   -- week number and day name
+  //     IsWeekend BIT,                     -- 1 for Saturday/Sunday
+  //     FiscalYear INT, FiscalQuarter INT  -- federal fiscal year (Oct-Sep)
+  //   )
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_dim_date =
@@ -377,7 +441,27 @@ int etl_t::create_schema()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //DimCompany (SCD Type 2)
+  // DimCompany (SCD Type 2)
+  // company dimension with slowly changing dimension Type 2 support
+  //
+  // SQL:
+  //   CREATE TABLE DimCompany (
+  //     CompanyKey INT PRIMARY KEY IDENTITY(1,1),  -- surrogate key (auto-increment)
+  //     Ticker VARCHAR(10),                        -- natural key (stock symbol)
+  //     CompanyName VARCHAR(100),                  -- full company name
+  //     Sector VARCHAR(50), Industry VARCHAR(100), -- industry classification
+  //     CEO VARCHAR(100),                          -- current CEO (tracked via SCD2)
+  //     Founded INT, Headquarters VARCHAR(100),    -- company info
+  //     Employees INT, MarketCapTier VARCHAR(20),  -- size classification
+  //     EffectiveDate DATE,                        -- SCD2: when record became active
+  //     ExpiryDate DATE,                           -- SCD2: when record was superseded
+  //     IsCurrent BIT DEFAULT 1                    -- SCD2: 1 for current record
+  //   )
+  //
+  // SCD Type 2 notes:
+  //   - historical changes create new records with updated EffectiveDate
+  //   - old records are expired by setting ExpiryDate and IsCurrent=0
+  //   - enables point-in-time reporting (who was CEO on date X?)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_dim_company =
@@ -396,7 +480,15 @@ int etl_t::create_schema()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //DimSector
+  // DimSector
+  // sector dimension for industry classification
+  //
+  // SQL:
+  //   CREATE TABLE DimSector (
+  //     SectorKey INT PRIMARY KEY IDENTITY(1,1),
+  //     SectorName VARCHAR(50),
+  //     SectorDescription VARCHAR(200)
+  //   )
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_dim_sector =
@@ -411,7 +503,29 @@ int etl_t::create_schema()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //FactDailyStock
+  // FactDailyStock
+  // daily stock price fact table
+  //
+  // SQL:
+  //   CREATE TABLE FactDailyStock (
+  //     StockFactKey BIGINT PRIMARY KEY IDENTITY(1,1),  -- surrogate fact key
+  //     DateKey INT,                                    -- FK to DimDate
+  //     CompanyKey INT,                                 -- FK to DimCompany
+  //     OpenPrice DECIMAL(12,2),                        -- opening price
+  //     HighPrice DECIMAL(12,2),                        -- daily high
+  //     LowPrice DECIMAL(12,2),                         -- daily low
+  //     ClosePrice DECIMAL(12,2),                       -- closing price
+  //     Volume BIGINT,                                  -- trading volume
+  //     MarketCap DECIMAL(18,2),                        -- market capitalization
+  //     DailyReturn DECIMAL(8,6),                       -- daily return percentage
+  //     MovingAvg50 DECIMAL(12,2),                      -- 50-day moving average
+  //     MovingAvg200 DECIMAL(12,2),                     -- 200-day moving average
+  //     RSI DECIMAL(6,2),                               -- relative strength index
+  //     FOREIGN KEY (DateKey) REFERENCES DimDate(DateKey),
+  //     FOREIGN KEY (CompanyKey) REFERENCES DimCompany(CompanyKey)
+  //   )
+  //
+  // grain: one row per company per trading day
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_fact_stock =
@@ -433,7 +547,35 @@ int etl_t::create_schema()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //FactFinancials
+  // FactFinancials
+  // quarterly financial statement fact table
+  //
+  // SQL:
+  //   CREATE TABLE FactFinancials (
+  //     FinancialKey BIGINT PRIMARY KEY IDENTITY(1,1),
+  //     DateKey INT, CompanyKey INT,                    -- dimension foreign keys
+  //     Revenue DECIMAL(18,2),                          -- total revenue
+  //     GrossProfit DECIMAL(18,2),                      -- gross profit
+  //     OperatingIncome DECIMAL(18,2),                  -- operating income
+  //     NetIncome DECIMAL(18,2),                        -- net income
+  //     EPS DECIMAL(10,4),                              -- earnings per share
+  //     EBITDA DECIMAL(18,2),                           -- EBITDA
+  //     TotalAssets DECIMAL(18,2),                      -- total assets
+  //     TotalLiabilities DECIMAL(18,2),                 -- total liabilities
+  //     CashAndEquivalents DECIMAL(18,2),               -- cash and equivalents
+  //     TotalDebt DECIMAL(18,2),                        -- total debt
+  //     FreeCashFlow DECIMAL(18,2),                     -- free cash flow
+  //     RnDExpense DECIMAL(18,2),                       -- R&D expense
+  //     GrossMargin DECIMAL(8,4),                       -- gross margin ratio
+  //     OperatingMargin DECIMAL(8,4),                   -- operating margin ratio
+  //     NetMargin DECIMAL(8,4),                         -- net margin ratio
+  //     ROE DECIMAL(8,4),                               -- return on equity
+  //     ROA DECIMAL(8,4),                               -- return on assets
+  //     FOREIGN KEY (DateKey) REFERENCES DimDate(DateKey),
+  //     FOREIGN KEY (CompanyKey) REFERENCES DimCompany(CompanyKey)
+  //   )
+  //
+  // grain: one row per company per fiscal quarter
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_fact_fin =
@@ -458,7 +600,26 @@ int etl_t::create_schema()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //FactValuation
+  // FactValuation
+  // valuation ratios fact table
+  //
+  // SQL:
+  //   CREATE TABLE FactValuation (
+  //     ValuationKey BIGINT PRIMARY KEY IDENTITY(1,1),
+  //     DateKey INT, CompanyKey INT,
+  //     PERatio DECIMAL(10,2),                          -- price-to-earnings
+  //     ForwardPE DECIMAL(10,2),                        -- forward P/E
+  //     PEGRatio DECIMAL(10,4),                         -- PEG ratio
+  //     PriceToSales DECIMAL(10,2),                     -- price-to-sales
+  //     PriceToBook DECIMAL(10,2),                      -- price-to-book
+  //     EVToEBITDA DECIMAL(10,2),                       -- EV/EBITDA
+  //     EVToRevenue DECIMAL(10,2),                      -- EV/Revenue
+  //     DividendYield DECIMAL(8,4),                     -- dividend yield
+  //     Beta DECIMAL(6,4),                              -- stock beta
+  //     ShortRatio DECIMAL(8,2),                        -- short interest ratio
+  //     FOREIGN KEY (DateKey) REFERENCES DimDate(DateKey),
+  //     FOREIGN KEY (CompanyKey) REFERENCES DimCompany(CompanyKey)
+  //   )
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_fact_val =
@@ -483,7 +644,19 @@ int etl_t::create_schema()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::load_date_dimension
+// etl_t::load_date_dimension
+// populates DimDate with calendar data for specified year range
+//
+// SQL (for each date):
+//   IF NOT EXISTS (SELECT 1 FROM DimDate WHERE DateKey=20251230)
+//   INSERT INTO DimDate (DateKey, FullDate, Year, Quarter, Month, MonthName,
+//                        Week, DayOfWeek, IsWeekend, FiscalYear, FiscalQuarter)
+//   VALUES (20251230, '2025-12-30', 2025, 4, 12, 'December', 52, 'Tuesday', 0, 2026, 1)
+//
+// fiscal year calculation:
+//   - federal fiscal year runs October through September
+//   - FY2026 = Oct 2025 - Sep 2026
+//   - months >= 10 (Oct-Dec) belong to next fiscal year
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::load_date_dimension(int start_year, int end_year)
@@ -514,7 +687,7 @@ int etl_t::load_date_dimension(int start_year, int end_year)
         int week = (t.tm_yday / 7) + 1;
         int quarter = (m - 1) / 3 + 1;
         int fiscal_q = ((m + 5) / 3) % 4 + 1;
-        int fiscal_y = (m >= 7) ? y + 1 : y;
+        int fiscal_y = (m >= 10) ? y + 1 : y;
         int is_weekend = (dow == 0 || dow == 6) ? 1 : 0;
 
         std::stringstream sql;
@@ -544,7 +717,23 @@ int etl_t::load_date_dimension(int start_year, int end_year)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::load_companies_from_csv
+// etl_t::load_companies_from_csv
+// loads company data from CSV into DimCompany dimension table
+//
+// duplicate check SQL:
+//   SELECT CompanyKey FROM DimCompany WHERE Ticker='AAPL' AND IsCurrent=1
+//
+// insert SQL:
+//   INSERT INTO DimCompany (Ticker, CompanyName, Sector, Industry, CEO,
+//                           Founded, Headquarters, Employees, MarketCapTier,
+//                           EffectiveDate, IsCurrent)
+//   VALUES ('AAPL', 'Apple Inc.', 'Technology', 'Consumer Electronics',
+//           'Tim Cook', 1976, 'Cupertino, CA', 164000, 'Mega Cap', GETDATE(), 1)
+//
+// notes:
+//   - skips existing companies (based on Ticker + IsCurrent=1)
+//   - sets EffectiveDate to current date for SCD Type 2 tracking
+//   - IsCurrent=1 indicates this is the active record
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::load_companies_from_csv(const std::string& filename)
@@ -557,7 +746,7 @@ int etl_t::load_companies_from_csv(const std::string& filename)
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //skip header row
+  // skip header row
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::vector<std::string> row = reader.read_row_by_comma();
@@ -594,7 +783,8 @@ int etl_t::load_companies_from_csv(const std::string& filename)
     std::string market_cap_tier = row[8];
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //check if company already exists
+    // check if company already exists
+    // SQL: SELECT CompanyKey FROM DimCompany WHERE Ticker='AAPL' AND IsCurrent=1
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::stringstream check_sql;
@@ -612,7 +802,8 @@ int etl_t::load_companies_from_csv(const std::string& filename)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //insert new company
+    // insert new company
+    // SQL: INSERT INTO DimCompany (...) VALUES (...)
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::string founded_sql = "NULL";
@@ -650,7 +841,21 @@ int etl_t::load_companies_from_csv(const std::string& filename)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::load_stock_data_from_csv
+// etl_t::load_stock_data_from_csv
+// loads daily stock price data from CSV into FactDailyStock fact table
+//
+// duplicate check SQL:
+//   SELECT StockFactKey FROM FactDailyStock WHERE DateKey=20251230 AND CompanyKey=1
+//
+// insert SQL:
+//   INSERT INTO FactDailyStock (DateKey, CompanyKey, OpenPrice, HighPrice,
+//                               LowPrice, ClosePrice, Volume, MarketCap, DailyReturn)
+//   VALUES (20251230, 1, 254.12, 257.89, 253.45, 256.78, 45678900, 3890000000000, 0.0082)
+//
+// notes:
+//   - uses get_company_key() to resolve ticker to surrogate key
+//   - uses get_date_key() to convert date string to integer key
+//   - skips duplicates (same DateKey + CompanyKey)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::load_stock_data_from_csv(const std::string& filename)
@@ -663,7 +868,7 @@ int etl_t::load_stock_data_from_csv(const std::string& filename)
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //skip header row
+  // skip header row
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::vector<std::string> row = reader.read_row_by_comma();
@@ -714,7 +919,8 @@ int etl_t::load_stock_data_from_csv(const std::string& filename)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //check for duplicate
+    // check for duplicate
+    // SQL: SELECT StockFactKey FROM FactDailyStock WHERE DateKey=X AND CompanyKey=Y
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::stringstream check_sql;
@@ -733,7 +939,8 @@ int etl_t::load_stock_data_from_csv(const std::string& filename)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //insert stock data
+    // insert stock data
+    // SQL: INSERT INTO FactDailyStock (...) VALUES (...)
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::stringstream sql;
@@ -759,7 +966,23 @@ int etl_t::load_stock_data_from_csv(const std::string& filename)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::load_financials_from_csv
+// etl_t::load_financials_from_csv
+// loads quarterly financial statement data from CSV into FactFinancials fact table
+//
+// duplicate check SQL:
+//   SELECT FinancialKey FROM FactFinancials WHERE DateKey=20250930 AND CompanyKey=1
+//
+// insert SQL:
+//   INSERT INTO FactFinancials (DateKey, CompanyKey, Revenue, GrossProfit,
+//                               OperatingIncome, NetIncome, EPS, EBITDA,
+//                               TotalAssets, TotalLiabilities, CashAndEquivalents,
+//                               TotalDebt, FreeCashFlow, RnDExpense,
+//                               GrossMargin, OperatingMargin, NetMargin, ROE, ROA)
+//   VALUES (20250930, 1, 94930000000, 43900000000, ...)
+//
+// notes:
+//   - DateKey corresponds to fiscal quarter end date
+//   - financial ratios (margins, ROE, ROA) are pre-calculated in CSV
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::load_financials_from_csv(const std::string& filename)
@@ -772,7 +995,7 @@ int etl_t::load_financials_from_csv(const std::string& filename)
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //skip header row
+  // skip header row
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::vector<std::string> row = reader.read_row_by_comma();
@@ -833,7 +1056,8 @@ int etl_t::load_financials_from_csv(const std::string& filename)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //check for duplicate
+    // check for duplicate
+    // SQL: SELECT FinancialKey FROM FactFinancials WHERE DateKey=X AND CompanyKey=Y
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::stringstream check_sql;
@@ -852,7 +1076,8 @@ int etl_t::load_financials_from_csv(const std::string& filename)
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    //insert financials
+    // insert financials
+    // SQL: INSERT INTO FactFinancials (...) VALUES (...)
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::stringstream sql;
@@ -883,14 +1108,35 @@ int etl_t::load_financials_from_csv(const std::string& filename)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::update_company_scd2
-//SCD Type 2: Expire current record and insert new one with updated field
+// etl_t::update_company_scd2
+// implements Slowly Changing Dimension Type 2 update for company attributes
+//
+// SCD Type 2 preserves history by:
+//   1. expiring the current record (set ExpiryDate and IsCurrent=0)
+//   2. inserting a new record with the updated value
+//
+// step 1 - expire current record:
+//   UPDATE DimCompany SET ExpiryDate=GETDATE(), IsCurrent=0
+//   WHERE Ticker='MSFT' AND IsCurrent=1
+//
+// step 2 - insert new record with updated field:
+//   INSERT INTO DimCompany (Ticker, CompanyName, Sector, Industry, CEO, ...)
+//   SELECT Ticker, CompanyName, Sector, Industry,
+//     CASE WHEN 'CEO'='CEO' THEN 'New CEO Name' ELSE CEO END, ...
+//   FROM DimCompany WHERE Ticker='MSFT' AND ExpiryDate=CAST(GETDATE() AS DATE)
+//
+// example history after CEO change:
+//   CompanyKey | Ticker | CEO           | EffectiveDate | ExpiryDate | IsCurrent
+//   1          | MSFT   | Satya Nadella | 2020-01-01    | 2025-06-01 | 0
+//   2          | MSFT   | New CEO       | 2025-06-01    | NULL       | 1
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::update_company_scd2(const std::string& ticker, const std::string& field, const std::string& new_value)
 {
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //expire current record
+  // expire current record
+  // SQL: UPDATE DimCompany SET ExpiryDate=GETDATE(), IsCurrent=0
+  //      WHERE Ticker='MSFT' AND IsCurrent=1
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::stringstream sql_expire;
@@ -903,7 +1149,8 @@ int etl_t::update_company_scd2(const std::string& ticker, const std::string& fie
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //insert new record with updated field
+  // insert new record with updated field
+  // SQL: INSERT INTO DimCompany (...) SELECT ... CASE WHEN ... FROM DimCompany WHERE ...
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::stringstream sql_insert;
@@ -922,7 +1169,21 @@ int etl_t::update_company_scd2(const std::string& ticker, const std::string& fie
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//etl_t::run_analytics
+// etl_t::run_analytics
+// executes analytical queries and displays results
+//
+// query 1 - market cap rankings:
+//   uses RANK() window function to rank companies by market capitalization
+//   joins FactDailyStock with DimCompany on surrogate key
+//   filters for current records and most recent date
+//
+// query 2 - sector breakdown:
+//   aggregates market cap by sector using GROUP BY
+//   counts distinct companies per sector
+//
+// query 3 - financial metrics:
+//   joins FactFinancials with DimCompany
+//   shows revenue, net income, and profitability ratios
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int etl_t::run_analytics()
@@ -930,7 +1191,21 @@ int etl_t::run_analytics()
   table_t table;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //market cap rankings
+  // market cap rankings
+  //
+  // SQL:
+  //   SELECT TOP 50 c.Ticker, c.CompanyName, c.Sector, f.MarketCap/1e12 AS MarketCapT,
+  //     RANK() OVER (ORDER BY f.MarketCap DESC) AS Rank
+  //   FROM FactDailyStock f
+  //   JOIN DimCompany c ON f.CompanyKey = c.CompanyKey
+  //   WHERE c.IsCurrent = 1
+  //     AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)
+  //   ORDER BY Rank
+  //
+  // notes:
+  //   - RANK() assigns same rank to ties, then skips (1,1,3 not 1,1,2)
+  //   - subquery gets most recent trading day
+  //   - market cap displayed in trillions (1e12)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_rank =
@@ -972,7 +1247,21 @@ int etl_t::run_analytics()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //sector breakdown
+  // sector breakdown
+  //
+  // SQL:
+  //   SELECT c.Sector, COUNT(DISTINCT c.Ticker) AS Companies,
+  //     SUM(f.MarketCap)/1e12 AS TotalMarketCapT
+  //   FROM FactDailyStock f
+  //   JOIN DimCompany c ON f.CompanyKey = c.CompanyKey
+  //   WHERE c.IsCurrent = 1
+  //     AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)
+  //   GROUP BY c.Sector
+  //   ORDER BY TotalMarketCapT DESC
+  //
+  // notes:
+  //   - COUNT(DISTINCT) ensures each company counted once
+  //   - GROUP BY aggregates at sector level
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_sector =
@@ -1003,7 +1292,21 @@ int etl_t::run_analytics()
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //financial metrics summary
+  // financial metrics summary
+  //
+  // SQL:
+  //   SELECT TOP 20 c.Ticker, c.CompanyName,
+  //     ff.Revenue/1e9 AS RevenueB, ff.NetIncome/1e9 AS NetIncomeB,
+  //     ff.GrossMargin, ff.NetMargin, ff.ROE, ff.ROA
+  //   FROM FactFinancials ff
+  //   JOIN DimCompany c ON ff.CompanyKey = c.CompanyKey
+  //   WHERE c.IsCurrent = 1
+  //     AND ff.DateKey = (SELECT MAX(DateKey) FROM FactFinancials)
+  //   ORDER BY ff.Revenue DESC
+  //
+  // notes:
+  //   - revenue and net income displayed in billions (1e9)
+  //   - ordered by revenue descending (largest companies first)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql_fin =

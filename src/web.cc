@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
-  //validate required parameters
+  // validate required parameters
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (server.empty())
@@ -271,6 +271,11 @@ void WApplicationFinmart::setup_navbar()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::setup_dashboard
+// creates the dashboard view with sector breakdown and company listing
+//
+// SQL queries used:
+//   1. sector breakdown - aggregates market cap by sector
+//   2. all companies - lists all companies with latest market cap
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::setup_dashboard()
@@ -296,6 +301,23 @@ void WApplicationFinmart::setup_dashboard()
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // sector breakdown
+  //
+  // SQL:
+  //   SELECT c.Sector, COUNT(DISTINCT c.Ticker) AS Companies,
+  //     SUM(f.MarketCap)/1e12 AS TotalMarketCapT
+  //   FROM FactDailyStock f
+  //   JOIN DimCompany c ON f.CompanyKey = c.CompanyKey
+  //   WHERE c.IsCurrent = 1
+  //     AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)
+  //   GROUP BY c.Sector
+  //   ORDER BY TotalMarketCapT DESC
+  //
+  // notes:
+  //   - joins fact table with company dimension on surrogate key
+  //   - filters for current company records (SCD Type 2)
+  //   - uses subquery to get most recent trading day
+  //   - aggregates at sector level with COUNT and SUM
+  //   - market cap converted to trillions (1e12)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   Wt::WContainerWidget* sector_col = row->addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -335,6 +357,22 @@ void WApplicationFinmart::setup_dashboard()
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // all companies in database
+  //
+  // SQL:
+  //   SELECT c.Ticker, c.CompanyName, c.Sector, c.Industry,
+  //     COALESCE(f.MarketCap/1e9, 0) AS MarketCapB
+  //   FROM DimCompany c
+  //   LEFT JOIN (SELECT CompanyKey, MarketCap FROM FactDailyStock
+  //              WHERE DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)) f
+  //     ON c.CompanyKey = f.CompanyKey
+  //   WHERE c.IsCurrent = 1
+  //   ORDER BY c.Ticker
+  //
+  // notes:
+  //   - LEFT JOIN ensures companies without stock data are included
+  //   - subquery gets latest market cap from most recent trading day
+  //   - COALESCE handles NULL for companies without stock data
+  //   - market cap converted to billions (1e9)
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   dashboard_view->addWidget(std::make_unique<Wt::WBreak>());
@@ -384,6 +422,10 @@ void WApplicationFinmart::setup_dashboard()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::setup_companies
+// creates the companies view with sector filter dropdown
+//
+// SQL query for filter population:
+//   SELECT DISTINCT Sector FROM DimCompany WHERE IsCurrent=1 ORDER BY Sector
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::setup_companies()
@@ -409,6 +451,14 @@ void WApplicationFinmart::setup_companies()
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // load sectors into filter
+  //
+  // SQL:
+  //   SELECT DISTINCT Sector FROM DimCompany WHERE IsCurrent=1 ORDER BY Sector
+  //
+  // notes:
+  //   - DISTINCT returns unique sector values
+  //   - filters for current records only (SCD Type 2)
+  //   - populates dropdown for user filtering
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql = "SELECT DISTINCT Sector FROM DimCompany WHERE IsCurrent=1 ORDER BY Sector";
@@ -432,6 +482,10 @@ void WApplicationFinmart::setup_companies()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::setup_stocks
+// creates the stocks view with company filter dropdown
+//
+// SQL query for filter population:
+//   SELECT Ticker, CompanyName FROM DimCompany WHERE IsCurrent=1 ORDER BY Ticker
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::setup_stocks()
@@ -457,6 +511,14 @@ void WApplicationFinmart::setup_stocks()
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
   // load companies into filter
+  //
+  // SQL:
+  //   SELECT Ticker, CompanyName FROM DimCompany WHERE IsCurrent=1 ORDER BY Ticker
+  //
+  // notes:
+  //   - returns ticker symbols for dropdown population
+  //   - filters for current records only
+  //   - ordered alphabetically by ticker
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   std::string sql = "SELECT Ticker, CompanyName FROM DimCompany WHERE IsCurrent=1 ORDER BY Ticker";
@@ -519,6 +581,20 @@ void WApplicationFinmart::load_dashboard()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::load_companies
+// loads company data into the companies table with optional sector filtering
+//
+// SQL (with optional sector filter):
+//   SELECT Ticker, CompanyName, Sector, Industry, CEO, Headquarters, Employees, MarketCapTier
+//   FROM DimCompany
+//   WHERE IsCurrent=1
+//     AND Sector='Technology'  -- optional, based on filter selection
+//   ORDER BY Ticker
+//
+// notes:
+//   - queries DimCompany dimension table directly
+//   - filters for current records (SCD Type 2)
+//   - optional Sector filter added dynamically based on UI selection
+//   - ordered alphabetically by ticker symbol
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::load_companies()
@@ -566,6 +642,24 @@ void WApplicationFinmart::load_companies()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::load_stocks
+// loads daily stock price data with optional company filtering
+//
+// SQL (with optional company filter):
+//   SELECT TOP 100 c.Ticker, d.FullDate, f.OpenPrice, f.HighPrice, f.LowPrice,
+//     f.ClosePrice, f.Volume, f.MarketCap/1e9 AS MarketCapB, f.DailyReturn
+//   FROM FactDailyStock f
+//   JOIN DimCompany c ON f.CompanyKey = c.CompanyKey
+//   JOIN DimDate d ON f.DateKey = d.DateKey
+//   WHERE c.IsCurrent = 1
+//     AND c.Ticker='AAPL'  -- optional, based on filter selection
+//   ORDER BY d.FullDate DESC, c.Ticker
+//
+// notes:
+//   - joins fact table with both company and date dimensions
+//   - TOP 100 limits result set for performance
+//   - FullDate from DimDate provides formatted date display
+//   - market cap converted to billions (1e9)
+//   - ordered by date descending (most recent first)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::load_stocks()
@@ -619,6 +713,26 @@ void WApplicationFinmart::load_stocks()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::load_financials
+// loads quarterly financial statement data for all companies
+//
+// SQL:
+//   SELECT c.Ticker, c.CompanyName,
+//     ff.Revenue/1e9 AS RevenueB, ff.NetIncome/1e9 AS NetIncomeB,
+//     ff.GrossMargin * 100 AS GrossMargin, ff.NetMargin * 100 AS NetMargin,
+//     ff.ROE * 100 AS ROE, ff.ROA * 100 AS ROA
+//   FROM FactFinancials ff
+//   JOIN DimCompany c ON ff.CompanyKey = c.CompanyKey
+//   WHERE c.IsCurrent = 1
+//     AND ff.DateKey = (SELECT MAX(ff2.DateKey) FROM FactFinancials ff2
+//                       WHERE ff2.CompanyKey = ff.CompanyKey)
+//   ORDER BY ff.Revenue DESC
+//
+// notes:
+//   - correlated subquery gets most recent quarter FOR EACH COMPANY
+//   - this ensures each company shows their latest data, not global latest
+//   - revenue and net income converted to billions (1e9)
+//   - margins and ratios multiplied by 100 for percentage display
+//   - ordered by revenue descending (largest companies first)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::load_financials()
@@ -666,6 +780,31 @@ void WApplicationFinmart::load_financials()
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // WApplicationFinmart::load_sectors
+// loads sector-level aggregated analysis
+//
+// SQL:
+//   SELECT c.Sector, COUNT(DISTINCT c.Ticker) AS Companies,
+//     SUM(f.MarketCap)/1e12 AS TotalMarketCapT,
+//     AVG(ff.Revenue)/1e9 AS AvgRevenueB,
+//     AVG(ff.GrossMargin) * 100 AS AvgGrossMargin,
+//     AVG(ff.NetMargin) * 100 AS AvgNetMargin
+//   FROM FactDailyStock f
+//   JOIN DimCompany c ON f.CompanyKey = c.CompanyKey
+//   LEFT JOIN FactFinancials ff ON c.CompanyKey = ff.CompanyKey
+//     AND ff.DateKey = (SELECT MAX(ff2.DateKey) FROM FactFinancials ff2
+//                       WHERE ff2.CompanyKey = ff.CompanyKey)
+//   WHERE c.IsCurrent = 1
+//     AND f.DateKey = (SELECT MAX(DateKey) FROM FactDailyStock)
+//   GROUP BY c.Sector
+//   ORDER BY TotalMarketCapT DESC
+//
+// notes:
+//   - joins stock facts with company dimension and financial facts
+//   - LEFT JOIN ensures sectors appear even without financial data
+//   - correlated subquery gets latest financials per company
+//   - aggregates with SUM (market cap), COUNT (companies), AVG (margins)
+//   - market cap in trillions, revenue in billions
+//   - grouped and ordered by sector
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WApplicationFinmart::load_sectors()
