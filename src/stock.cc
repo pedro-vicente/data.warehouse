@@ -32,7 +32,7 @@ static std::string extract_json_string(const std::string& json, const std::strin
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
-  std::vector<StockQuote>& quotes, int limit)
+  std::vector<StockQuote>& quotes, int limit, bool verbose)
 {
   quotes.clear();
 
@@ -49,13 +49,16 @@ int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
   std::string response;
   std::vector<std::string> headers;
 
-  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers);
+  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers, verbose);
   if (result != 0)
   {
     return -1;
   }
 
-  std::cout << response << std::endl;
+  if (verbose)
+  {
+    std::cout << response << std::endl;
+  }
 
   std::istringstream iss(response);
   std::string line;
@@ -101,7 +104,9 @@ int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
     ++count;
   }
 
+
   std::cout << "  " << ticker << ": " << quotes.size() << " days" << std::endl;
+
   return 0;
 }
 
@@ -111,7 +116,7 @@ int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int fetch_company_overview(const std::string& api_key, const std::string& ticker,
-  CompanyInfo& info)
+  CompanyInfo& info, bool verbose)
 {
   std::string path = "/query?function=OVERVIEW&symbol=" + ticker + "&apikey=" + api_key;
 
@@ -125,13 +130,16 @@ int fetch_company_overview(const std::string& api_key, const std::string& ticker
   std::string response;
   std::vector<std::string> headers;
 
-  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers);
+  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers, verbose);
   if (result != 0)
   {
     return -1;
   }
 
-  std::cout << response << std::endl;
+  if (verbose)
+  {
+    std::cout << response << std::endl;
+  }
 
   if (response.empty() || response == "{}")
   {
@@ -152,7 +160,9 @@ int fetch_company_overview(const std::string& api_key, const std::string& ticker
     info.name = ticker;
   }
 
+
   std::cout << "  " << ticker << ": " << info.name << std::endl;
+
   return 0;
 }
 
@@ -162,7 +172,7 @@ int fetch_company_overview(const std::string& api_key, const std::string& ticker
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int fetch_income_statement(const std::string& api_key, const std::string& ticker,
-  std::vector<FinancialStatement>& statements)
+  std::vector<FinancialStatement>& statements, bool verbose)
 {
   statements.clear();
 
@@ -178,13 +188,16 @@ int fetch_income_statement(const std::string& api_key, const std::string& ticker
   std::string response;
   std::vector<std::string> headers;
 
-  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers);
+  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers, verbose);
   if (result != 0)
   {
     return -1;
   }
 
-  std::cout << response << std::endl;
+  if (verbose)
+  {
+    std::cout << response << std::endl;
+  }
 
   size_t pos = response.find("\"quarterlyReports\"");
   if (pos == std::string::npos)
@@ -230,7 +243,9 @@ int fetch_income_statement(const std::string& api_key, const std::string& ticker
     pos = end + 1;
   }
 
+
   std::cout << "  " << ticker << ": " << statements.size() << " quarters (income)" << std::endl;
+
   return 0;
 }
 
@@ -240,7 +255,7 @@ int fetch_income_statement(const std::string& api_key, const std::string& ticker
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
-  std::vector<BalanceSheet>& sheets)
+  std::vector<BalanceSheet>& sheets, bool verbose)
 {
   sheets.clear();
 
@@ -256,13 +271,16 @@ int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
   std::string response;
   std::vector<std::string> headers;
 
-  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers);
+  int result = ssl_read(ALPHAVANTAGE_HOST, ALPHAVANTAGE_PORT, http.str(), response, headers, verbose);
   if (result != 0)
   {
     return -1;
   }
 
-  std::cout << response << std::endl;
+  if (verbose)
+  {
+    std::cout << response << std::endl;
+  }
 
   size_t pos = response.find("\"quarterlyReports\"");
   if (pos == std::string::npos)
@@ -313,7 +331,9 @@ int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
     pos = end + 1;
   }
 
+
   std::cout << "  " << ticker << ": " << sheets.size() << " quarters (balance sheet)" << std::endl;
+
   return 0;
 }
 
@@ -323,7 +343,7 @@ int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int merge_balance_sheet(std::vector<FinancialStatement>& statements,
-  const std::vector<BalanceSheet>& sheets)
+  const std::vector<BalanceSheet>& sheets, bool verbose)
 {
   int merged_count = 0;
 
@@ -348,7 +368,9 @@ int merge_balance_sheet(std::vector<FinancialStatement>& statements,
     }
   }
 
+
   std::cout << "  Merged " << merged_count << " balance sheets" << std::endl;
+
   return merged_count;
 }
 
@@ -356,7 +378,7 @@ int merge_balance_sheet(std::vector<FinancialStatement>& statements,
 // export_companies_csv
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename)
+int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename, bool verbose)
 {
   std::ofstream ofs(filename);
   if (!ofs.is_open())
@@ -388,7 +410,9 @@ int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::s
   }
 
   ofs.close();
+
   std::cout << "Exported " << companies.size() << " companies to " << filename << std::endl;
+
   assert(companies.size());
   return 0;
 }
@@ -397,7 +421,8 @@ int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::s
 // export_stock_data_csv
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies, const std::string& filename)
+int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies,
+  const std::string& filename, bool verbose)
 {
   std::ofstream ofs(filename);
   if (!ofs.is_open())
@@ -435,7 +460,9 @@ int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vect
   }
 
   ofs.close();
+
   std::cout << "Exported " << quotes.size() << " stock quotes to " << filename << std::endl;
+
   assert(quotes.size());
   return 0;
 }
@@ -444,7 +471,7 @@ int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vect
 // export_financials_csv
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename)
+int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename, bool verbose)
 {
   std::ofstream ofs(filename);
   if (!ofs.is_open())
@@ -493,8 +520,10 @@ int export_financials_csv(const std::vector<FinancialStatement>& statements, con
   }
 
   ofs.close();
+
   std::cout << "Exported " << statements.size() << " financial statements to " << filename << std::endl;
-  assert(statements.size());  
+
+  assert(statements.size());
   return 0;
 }
 

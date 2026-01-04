@@ -61,7 +61,7 @@ void usage(const char* program_name)
   std::cout << "Other options:" << std::endl;
   std::cout << "  -t, --ticker SYM  Fetch single ticker only" << std::endl;
   std::cout << "  -n, --count N     Number of companies to fetch (default: all)" << std::endl;
-  std::cout << "  -d, --days N      Days of stock history (default: 2)" << std::endl;
+  std::cout << "  -d, --days N      Days of stock history (default: 1)" << std::endl;
   std::cout << "  -w, --wait N      Seconds between API calls (default: 12)" << std::endl;
   std::cout << "  --test            Test mode: 1 company, 3 sec wait" << std::endl;
   std::cout << "  -h, --help        Display this help message" << std::endl;
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
   std::string csv_file = "sp500_financials.csv";
   std::string single_ticker;
   int ticker_count = -1;
-  int days = 2;
+  int days = 1;
   int wait = 12;
   bool test_mode = false;
 

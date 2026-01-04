@@ -79,26 +79,27 @@ struct BalanceSheet
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int fetch_daily_stock(const std::string& api_key, const std::string& ticker,
-  std::vector<StockQuote>& quotes, int limit);
+  std::vector<StockQuote>& quotes, int limit, bool verbose = false);
 
 int fetch_company_overview(const std::string& api_key, const std::string& ticker,
-  CompanyInfo& info);
+  CompanyInfo& info, bool verbose = false);
 
 int fetch_income_statement(const std::string& api_key, const std::string& ticker,
-  std::vector<FinancialStatement>& statements);
+  std::vector<FinancialStatement>& statements, bool verbose = false);
 
 int fetch_balance_sheet(const std::string& api_key, const std::string& ticker,
-  std::vector<BalanceSheet>& sheets);
+  std::vector<BalanceSheet>& sheets, bool verbose = false);
 
 int merge_balance_sheet(std::vector<FinancialStatement>& statements,
-  const std::vector<BalanceSheet>& sheets);
+  const std::vector<BalanceSheet>& sheets, bool verbose = false);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // CSV export functions
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename);
-int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies, const std::string& filename);
-int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename);
+int export_companies_csv(const std::vector<CompanyInfo>& companies, const std::string& filename, bool verbose = false);
+int export_stock_data_csv(const std::vector<StockQuote>& quotes, const std::vector<CompanyInfo>& companies,
+  const std::string& filename, bool verbose = false);
+int export_financials_csv(const std::vector<FinancialStatement>& statements, const std::string& filename, bool verbose = false);
 
 #endif
