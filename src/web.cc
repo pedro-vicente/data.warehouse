@@ -342,12 +342,12 @@ void WApplicationFinmart::setup_dashboard()
 
   if (odbc.fetch(sql_sector, tbl) == 0)
   {
-    for (size_t idx = 0; idx < tbl.rows.size(); idx++)
+    for (int idx = 0; idx < (int)tbl.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
-      std::string sector = tbl.get_row_col_value(static_cast<int>(idx), "Sector");
-      std::string cnt = tbl.get_row_col_value(static_cast<int>(idx), "Companies");
-      std::string total = tbl.get_row_col_value(static_cast<int>(idx), "TotalMarketCapT");
+      int row = idx + 1;
+      std::string sector = tbl.get_row_col_value(idx, "Sector");
+      std::string cnt = tbl.get_row_col_value(idx, "Companies");
+      std::string total = tbl.get_row_col_value(idx, "TotalMarketCapT");
 
       add_cell(sector_table, row, 0, sector);
       add_cell(sector_table, row, 1, cnt);
@@ -401,14 +401,14 @@ void WApplicationFinmart::setup_dashboard()
 
   if (odbc.fetch(sql_all, tbl) == 0)
   {
-    for (size_t idx = 0; idx < tbl.rows.size(); idx++)
+    for (int idx = 0; idx < (int)tbl.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
-      std::string ticker = tbl.get_row_col_value(static_cast<int>(idx), "Ticker");
-      std::string name = tbl.get_row_col_value(static_cast<int>(idx), "CompanyName");
-      std::string sector = tbl.get_row_col_value(static_cast<int>(idx), "Sector");
-      std::string industry = tbl.get_row_col_value(static_cast<int>(idx), "Industry");
-      std::string mcap = tbl.get_row_col_value(static_cast<int>(idx), "MarketCapB");
+      int row = idx + 1;
+      std::string ticker = tbl.get_row_col_value(idx, "Ticker");
+      std::string name = tbl.get_row_col_value(idx, "CompanyName");
+      std::string sector = tbl.get_row_col_value(idx, "Sector");
+      std::string industry = tbl.get_row_col_value(idx, "Industry");
+      std::string mcap = tbl.get_row_col_value(idx, "MarketCapB");
 
       add_cell(all_table, row, 0, std::to_string(row));
       add_cell(all_table, row, 1, ticker);
@@ -465,9 +465,9 @@ void WApplicationFinmart::setup_companies()
   table_t table;
   if (odbc.fetch(sql, table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      std::string sector = table.get_row_col_value(static_cast<int>(idx), "Sector");
+      std::string sector = table.get_row_col_value(idx, "Sector");
       sector_filter->addItem(sector);
     }
   }
@@ -525,9 +525,9 @@ void WApplicationFinmart::setup_stocks()
   table_t table;
   if (odbc.fetch(sql, table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      std::string ticker = table.get_row_col_value(static_cast<int>(idx), "Ticker");
+      std::string ticker = table.get_row_col_value(idx, "Ticker");
       company_filter->addItem(ticker);
     }
   }
@@ -624,18 +624,18 @@ void WApplicationFinmart::load_companies()
   table_t table;
   if (odbc.fetch(sql.str(), table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
+      int row = idx + 1;
 
-      add_cell(companies_table, row, 0, table.get_row_col_value(static_cast<int>(idx), "Ticker"));
-      add_cell(companies_table, row, 1, table.get_row_col_value(static_cast<int>(idx), "CompanyName"));
-      add_cell(companies_table, row, 2, table.get_row_col_value(static_cast<int>(idx), "Sector"));
-      add_cell(companies_table, row, 3, table.get_row_col_value(static_cast<int>(idx), "Industry"));
-      add_cell(companies_table, row, 4, table.get_row_col_value(static_cast<int>(idx), "CEO"));
-      add_cell(companies_table, row, 5, table.get_row_col_value(static_cast<int>(idx), "Headquarters"));
-      add_number_cell(companies_table, row, 6, table.get_row_col_value(static_cast<int>(idx), "Employees"));
-      add_cell(companies_table, row, 7, table.get_row_col_value(static_cast<int>(idx), "MarketCapTier"));
+      add_cell(companies_table, row, 0, table.get_row_col_value(idx, "Ticker"));
+      add_cell(companies_table, row, 1, table.get_row_col_value(idx, "CompanyName"));
+      add_cell(companies_table, row, 2, table.get_row_col_value(idx, "Sector"));
+      add_cell(companies_table, row, 3, table.get_row_col_value(idx, "Industry"));
+      add_cell(companies_table, row, 4, table.get_row_col_value(idx, "CEO"));
+      add_cell(companies_table, row, 5, table.get_row_col_value(idx, "Headquarters"));
+      add_number_cell(companies_table, row, 6, table.get_row_col_value(idx, "Employees"));
+      add_cell(companies_table, row, 7, table.get_row_col_value(idx, "MarketCapTier"));
     }
   }
 }
@@ -694,19 +694,19 @@ void WApplicationFinmart::load_stocks()
   table_t table;
   if (odbc.fetch(sql.str(), table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
+      int row = idx + 1;
 
-      add_cell(stocks_table, row, 0, table.get_row_col_value(static_cast<int>(idx), "Ticker"));
-      add_cell(stocks_table, row, 1, table.get_row_col_value(static_cast<int>(idx), "FullDate"));
-      add_currency_cell(stocks_table, row, 2, table.get_row_col_value(static_cast<int>(idx), "OpenPrice"));
-      add_currency_cell(stocks_table, row, 3, table.get_row_col_value(static_cast<int>(idx), "HighPrice"));
-      add_currency_cell(stocks_table, row, 4, table.get_row_col_value(static_cast<int>(idx), "LowPrice"));
-      add_currency_cell(stocks_table, row, 5, table.get_row_col_value(static_cast<int>(idx), "ClosePrice"));
-      add_number_cell(stocks_table, row, 6, table.get_row_col_value(static_cast<int>(idx), "Volume"));
-      add_currency_cell(stocks_table, row, 7, table.get_row_col_value(static_cast<int>(idx), "MarketCapB"), "B");
-      add_percent_cell(stocks_table, row, 8, table.get_row_col_value(static_cast<int>(idx), "DailyReturn"));
+      add_cell(stocks_table, row, 0, table.get_row_col_value(idx, "Ticker"));
+      add_cell(stocks_table, row, 1, table.get_row_col_value(idx, "FullDate"));
+      add_currency_cell(stocks_table, row, 2, table.get_row_col_value(idx, "OpenPrice"));
+      add_currency_cell(stocks_table, row, 3, table.get_row_col_value(idx, "HighPrice"));
+      add_currency_cell(stocks_table, row, 4, table.get_row_col_value(idx, "LowPrice"));
+      add_currency_cell(stocks_table, row, 5, table.get_row_col_value(idx, "ClosePrice"));
+      add_number_cell(stocks_table, row, 6, table.get_row_col_value(idx, "Volume"));
+      add_currency_cell(stocks_table, row, 7, table.get_row_col_value(idx, "MarketCapB"), "B");
+      add_percent_cell(stocks_table, row, 8, table.get_row_col_value(idx, "DailyReturn"));
     }
   }
 }
@@ -762,18 +762,18 @@ void WApplicationFinmart::load_financials()
   table_t table;
   if (odbc.fetch(sql, table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
+      int row = idx + 1;
 
-      add_cell(financials_table, row, 0, table.get_row_col_value(static_cast<int>(idx), "Ticker"));
-      add_cell(financials_table, row, 1, table.get_row_col_value(static_cast<int>(idx), "CompanyName"));
-      add_currency_cell(financials_table, row, 2, table.get_row_col_value(static_cast<int>(idx), "RevenueB"), "B");
-      add_currency_cell(financials_table, row, 3, table.get_row_col_value(static_cast<int>(idx), "NetIncomeB"), "B");
-      add_percent_cell(financials_table, row, 4, table.get_row_col_value(static_cast<int>(idx), "GrossMargin"));
-      add_percent_cell(financials_table, row, 5, table.get_row_col_value(static_cast<int>(idx), "NetMargin"));
-      add_percent_cell(financials_table, row, 6, table.get_row_col_value(static_cast<int>(idx), "ROE"));
-      add_percent_cell(financials_table, row, 7, table.get_row_col_value(static_cast<int>(idx), "ROA"));
+      add_cell(financials_table, row, 0, table.get_row_col_value(idx, "Ticker"));
+      add_cell(financials_table, row, 1, table.get_row_col_value(idx, "CompanyName"));
+      add_currency_cell(financials_table, row, 2, table.get_row_col_value(idx, "RevenueB"), "B");
+      add_currency_cell(financials_table, row, 3, table.get_row_col_value(idx, "NetIncomeB"), "B");
+      add_percent_cell(financials_table, row, 4, table.get_row_col_value(idx, "GrossMargin"));
+      add_percent_cell(financials_table, row, 5, table.get_row_col_value(idx, "NetMargin"));
+      add_percent_cell(financials_table, row, 6, table.get_row_col_value(idx, "ROE"));
+      add_percent_cell(financials_table, row, 7, table.get_row_col_value(idx, "ROA"));
     }
   }
 }
@@ -836,16 +836,16 @@ void WApplicationFinmart::load_sectors()
   table_t table;
   if (odbc.fetch(sql, table) == 0)
   {
-    for (size_t idx = 0; idx < table.rows.size(); idx++)
+    for (int idx = 0; idx < (int)table.rows.size(); idx++)
     {
-      int row = static_cast<int>(idx) + 1;
+      int row = idx + 1;
 
-      add_cell(sectors_table, row, 0, table.get_row_col_value(static_cast<int>(idx), "Sector"));
-      add_cell(sectors_table, row, 1, table.get_row_col_value(static_cast<int>(idx), "Companies"));
-      add_currency_cell(sectors_table, row, 2, table.get_row_col_value(static_cast<int>(idx), "TotalMarketCapT"), "T");
-      add_currency_cell(sectors_table, row, 3, table.get_row_col_value(static_cast<int>(idx), "AvgRevenueB"), "B");
-      add_percent_cell(sectors_table, row, 4, table.get_row_col_value(static_cast<int>(idx), "AvgGrossMargin"));
-      add_percent_cell(sectors_table, row, 5, table.get_row_col_value(static_cast<int>(idx), "AvgNetMargin"));
+      add_cell(sectors_table, row, 0, table.get_row_col_value(idx, "Sector"));
+      add_cell(sectors_table, row, 1, table.get_row_col_value(idx, "Companies"));
+      add_currency_cell(sectors_table, row, 2, table.get_row_col_value(idx, "TotalMarketCapT"), "T");
+      add_currency_cell(sectors_table, row, 3, table.get_row_col_value(idx, "AvgRevenueB"), "B");
+      add_percent_cell(sectors_table, row, 4, table.get_row_col_value(idx, "AvgGrossMargin"));
+      add_percent_cell(sectors_table, row, 5, table.get_row_col_value(idx, "AvgNetMargin"));
     }
   }
 }
@@ -911,11 +911,11 @@ void WApplicationFinmart::add_cell(Wt::WTable* table, int row, int col, const st
   Wt::WCssDecorationStyle cell_style;
   if (row % 2 == 0)
   {
-    cell_style.setBackgroundColor(Wt::WColor(248, 249, 250));
+    cell_style.setBackgroundColor(Wt::WColor(210, 210, 210));
   }
   else
   {
-    cell_style.setBackgroundColor(Wt::WColor(255, 255, 255));
+    cell_style.setBackgroundColor(Wt::WColor(230, 230, 230));
   }
   cell->setDecorationStyle(cell_style);
   cell->setPadding(Wt::WLength(6, Wt::LengthUnit::Pixel));
@@ -946,11 +946,11 @@ void WApplicationFinmart::add_number_cell(Wt::WTable* table, int row, int col, c
   Wt::WCssDecorationStyle cell_style;
   if (row % 2 == 0)
   {
-    cell_style.setBackgroundColor(Wt::WColor(248, 249, 250));
+    cell_style.setBackgroundColor(Wt::WColor(210, 210, 210));
   }
   else
   {
-    cell_style.setBackgroundColor(Wt::WColor(255, 255, 255));
+    cell_style.setBackgroundColor(Wt::WColor(230, 230, 230));
   }
   cell_style.setForegroundColor(Wt::WColor(0, 123, 255));
   cell->setDecorationStyle(cell_style);
@@ -982,11 +982,11 @@ void WApplicationFinmart::add_currency_cell(Wt::WTable* table, int row, int col,
   Wt::WCssDecorationStyle cell_style;
   if (row % 2 == 0)
   {
-    cell_style.setBackgroundColor(Wt::WColor(248, 249, 250));
+    cell_style.setBackgroundColor(Wt::WColor(210, 210, 210));
   }
   else
   {
-    cell_style.setBackgroundColor(Wt::WColor(255, 255, 255));
+    cell_style.setBackgroundColor(Wt::WColor(230, 230, 230));
   }
   cell_style.setForegroundColor(Wt::WColor(40, 167, 69));
   cell->setDecorationStyle(cell_style);
@@ -1018,11 +1018,11 @@ void WApplicationFinmart::add_percent_cell(Wt::WTable* table, int row, int col, 
   Wt::WCssDecorationStyle cell_style;
   if (row % 2 == 0)
   {
-    cell_style.setBackgroundColor(Wt::WColor(248, 249, 250));
+    cell_style.setBackgroundColor(Wt::WColor(210, 210, 210));
   }
   else
   {
-    cell_style.setBackgroundColor(Wt::WColor(255, 255, 255));
+    cell_style.setBackgroundColor(Wt::WColor(230, 230, 230));
   }
   cell_style.setForegroundColor(Wt::WColor(111, 66, 193));
   cell->setDecorationStyle(cell_style);
